@@ -33,7 +33,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
         gestureDetectorCompat = new GestureDetectorCompat(this, new MyGestureListener());
 
 
-        mPreview = (SurfaceView) findViewById(R.id.preview);
+        mPreview = findViewById(R.id.preview);
         mPreview.getHolder().addCallback(this);
         mPreview.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         mCamera = Camera.open();
