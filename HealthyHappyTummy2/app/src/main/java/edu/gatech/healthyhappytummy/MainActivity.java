@@ -63,8 +63,12 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
         mPreview = findViewById(R.id.preview);
         mPreview.getHolder().addCallback(this);
         mPreview.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        mCamera = Camera.open();
-        mCamera.setDisplayOrientation(90);
+        try {
+            mCamera = Camera.open();
+            mCamera.setDisplayOrientation(90);
+        } catch (Exception e) {
+            Log.d("CAMERA", e.toString());
+        }
 
     }
 
@@ -79,7 +83,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
     //camera functionality
 
     /*
-     * Capturing Camera Image will lauch camera app  and requrest image capture
+     * Capturing Camera Image will lauch camera app  and request image capture
      */
     private void captureImage() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

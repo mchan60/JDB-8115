@@ -36,6 +36,10 @@
             android:name=".AddEntryActivity"
             android:label="Add Entry"
             ></activity>
+        <activity
+            android:name=".ViewEntryActivity"
+            android:label="View Entry Activity"
+            ></activity>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
