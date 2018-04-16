@@ -1,6 +1,9 @@
 package edu.gatech.healthyhappytummy;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,9 +30,15 @@ public class ViewEntryActivity extends AppCompatActivity{
         Intent in = getIntent();
 
         FoodEntry entry = (FoodEntry) in.getSerializableExtra("DIARY_ENTRY");
-
+        Uri image_uri = Uri.parse(entry.getFileURI());
         entry_image = (ImageView) findViewById(R.id.entry_image);
-        entry_image.setImageURI(Uri.parse(entry.getFileURI()));
+        Bitmap myImg = BitmapFactory.decodeFile(image_uri.getPath());
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+        Bitmap rotated = Bitmap.createBitmap(myImg, 0, 0, myImg.getWidth(), myImg.getHeight(),
+                matrix, true);
+        entry_image.setImageBitmap(rotated);
+//        entry_image.setImageURI(Uri.parse(entry.getFileURI()));
         System.out.println(entry.getFileURI());
 
         entry_name = (TextView) findViewById(R.id.entry_name);
