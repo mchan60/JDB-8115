@@ -88,9 +88,9 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
     private void captureImage() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        fileUri = getOutputMediaFileUri(1);
+//        fileUri = getOutputMediaFileUri(1);
 
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
 
         // start the image capture Intent
         startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
@@ -105,10 +105,11 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
         if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // successfully captured the image
+                fileUri = getOutputMediaFileUri(1);
                 //move onto next activity
                 Intent intent = new Intent(
                         MainActivity.this, AddEntryActivity.class);
-                intent.putExtra("File Uri", data.getExtras());
+                intent.putExtra("File Uri", fileUri.toString());
                 startActivity(intent);
             } else if (resultCode == RESULT_CANCELED) {
                 // user cancelled Image capture

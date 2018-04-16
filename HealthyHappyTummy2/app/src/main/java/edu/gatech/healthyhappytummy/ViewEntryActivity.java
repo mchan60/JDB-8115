@@ -30,12 +30,13 @@ public class ViewEntryActivity extends AppCompatActivity{
 
         entry_image = (ImageView) findViewById(R.id.entry_image);
         entry_image.setImageURI(Uri.parse(entry.getFileURI()));
+        System.out.println(entry.getFileURI());
 
         entry_name = (TextView) findViewById(R.id.entry_name);
         entry_name.setText(entry.getFoodName());
 
         entry_calories = (TextView) findViewById(R.id.entry_calories);
-        entry_calories.setText(entry.getCalories());
+        entry_calories.setText(Integer.toString(entry.getCalories()));
 
         entry_description = (TextView) findViewById(R.id.entry_description);
         entry_description.setText(entry.getDescription());
