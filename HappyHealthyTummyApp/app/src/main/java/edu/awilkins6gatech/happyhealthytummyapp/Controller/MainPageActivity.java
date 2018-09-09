@@ -13,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.FileNotFoundException;
@@ -23,6 +24,7 @@ public class MainPageActivity extends AppCompatActivity {
 
     private static final int RESULT_LOAD_IMAGE = 5;
     private ImageView imageView;
+    private Button addEntryButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,13 @@ public class MainPageActivity extends AppCompatActivity {
         });
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(i, RESULT_LOAD_IMAGE);
+
+        addEntryButton = (Button) findViewById(R.id.button);
+        addEntryButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setContentView(R.layout.content_landing_page);
+            }
+        });
     }
 
 //    private Bitmap getImageFromGallery() {

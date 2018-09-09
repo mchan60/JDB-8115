@@ -22,7 +22,8 @@ public class LandingPageActivity extends AppCompatActivity {
 //    }
 
 
-    Button btnMain;
+    Button galleryButton;
+    Button homeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,8 @@ public class LandingPageActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        btnMain = (Button) (findViewById(R.id.buttonMainPage));
+        galleryButton = (Button) (findViewById(R.id.buttonMainPage));
+        homeButton = (Button) (findViewById(R.id.buttonHome));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -42,11 +44,17 @@ public class LandingPageActivity extends AppCompatActivity {
             }
         });
 
-        btnMain.setOnClickListener(new View.OnClickListener() {
+        galleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intentMainPage = new Intent(LandingPageActivity.this, MainPageActivity.class);
                 startActivity(intentMainPage);
+            }
+        });
+
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setContentView(R.layout.content_main_page);
             }
         });
 
