@@ -1,6 +1,6 @@
 package edu.awilkins6gatech.happyhealthytummyapp.Controller;
 
-import edu.awilkins6gatech.happyhealthytummyapp.Resource.DiaryEntry;
+import edu.awilkins6gatech.happyhealthytummyapp.Model.DiaryEntry;
 import org.junit.Assert;
 import org.junit.Test;
 

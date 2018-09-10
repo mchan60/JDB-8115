@@ -84,7 +84,7 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
     //camera functionality
 
     /*
-     * Capturing Camera Image will lauch camera app  and request image capture
+     * Capturing Camera Image will launch camera app  and request image capture
      */
     private void captureImage() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -107,14 +107,20 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
                 fileUri = getOutputMediaFileUri(1);
                 //move onto next activity
                 Intent intent = new Intent(
-                        LandingActivity.this, AddEntryActivity.class);
-                intent.putExtra("File Uri", fileUri.toString());
+                        LandingActivity.this, AddEntryPageActivity.class);
+                //intent.putExtra("File Uri", fileUri.toString());
                 startActivity(intent);
+                //captureImage();
             } else if (resultCode == RESULT_CANCELED) {
                 // user cancelled Image capture
                 Toast.makeText(getApplicationContext(),
                         "User cancelled image capture", Toast.LENGTH_SHORT)
                         .show();
+                //move onto next activity
+                Intent intent = new Intent(
+                        LandingActivity.this, AddEntryPageActivity.class);
+                //intent.putExtra("File Uri", fileUri.toString());
+                startActivity(intent);
             } else {
                 // failed to capture image
                 Toast.makeText(getApplicationContext(),
@@ -222,13 +228,13 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        Camera.Parameters params = mCamera.getParameters();
-        List<Camera.Size> sizes = params.getSupportedPreviewSizes();
-        Camera.Size selected = sizes.get(0);
-        params.setPreviewSize(selected.width, selected.height);
-        mCamera.setParameters(params);
-
-        mCamera.startPreview();
+//        Camera.Parameters params = mCamera.getParameters();
+//        List<Camera.Size> sizes = params.getSupportedPreviewSizes();
+//        Camera.Size selected = sizes.get(0);
+//        params.setPreviewSize(selected.width, selected.height);
+//        mCamera.setParameters(params);
+//
+//        mCamera.startPreview();
     }
 
     @Override
