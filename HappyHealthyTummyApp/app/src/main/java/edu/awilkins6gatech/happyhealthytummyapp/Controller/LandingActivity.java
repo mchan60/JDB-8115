@@ -104,7 +104,7 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
         if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // successfully captured the image
-                fileUri = getOutputMediaFileUri(1);
+                //fileUri = getOutputMediaFileUri(1);
                 //move onto next activity
                 Intent intent = new Intent(
                         LandingActivity.this, AddEntryPageActivity.class);
@@ -118,7 +118,7 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
                         .show();
                 //move onto next activity
                 Intent intent = new Intent(
-                        LandingActivity.this, AddEntryPageActivity.class);
+                        LandingActivity.this, MainPageActivity.class);
                 //intent.putExtra("File Uri", fileUri.toString());
                 startActivity(intent);
             } else {
