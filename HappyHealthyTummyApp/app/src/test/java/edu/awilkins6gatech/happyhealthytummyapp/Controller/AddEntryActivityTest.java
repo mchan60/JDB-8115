@@ -23,20 +23,20 @@ public class AddEntryActivityTest {
         String uri = Double.toString(random());
         entry = new DiaryEntry(uri, calories);
         entry = AddEntryActivity.createEntry(entry);
-        File testFile = new File("Entries/" + entry.Timestamp + ".json");
+        File testFile = new File("Entries/" + entry.getTimestamp() + ".json");
         Assert.assertTrue("The file was not created",testFile.exists());
     }
 
     public void readEntryTest() {
-        DiaryEntry entryFromFile = AddEntryActivity.readEntry(Long.toString(entry.Timestamp));
-        Assert.assertEquals("Uri fields are not the same", entry.FileUri, entryFromFile.FileUri);
-        Assert.assertEquals("Calorie fields are not the same", entry.Calories, entryFromFile.Calories);
-        Assert.assertEquals("Timestamp fields are not the same", entry.Timestamp, entryFromFile.Timestamp);
+        DiaryEntry entryFromFile = AddEntryActivity.readEntry(Long.toString(entry.getTimestamp()));
+        Assert.assertEquals("Uri fields are not the same", entry.getFileUri(), entryFromFile.getFileUri());
+        Assert.assertEquals("Calorie fields are not the same", entry.getCalories(), entryFromFile.getCalories());
+        Assert.assertEquals("Timestamp fields are not the same", entry.getTimestamp(), entryFromFile.getTimestamp());
     }
 
     public void deleteEntryTest() {
-        DiaryEntry deletedEntry = AddEntryActivity.deleteEntry(Long.toString(entry.Timestamp));
-        File testFile = new File("Entries/" + entry.Timestamp + ".json");
+        DiaryEntry deletedEntry = AddEntryActivity.deleteEntry(Long.toString(entry.getTimestamp()));
+        File testFile = new File("Entries/" + entry.getTimestamp() + ".json");
         Assert.assertFalse("The file was not deleted", testFile.exists());
     }
 }

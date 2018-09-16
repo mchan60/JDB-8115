@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 import edu.awilkins6gatech.happyhealthytummyapp.R;
@@ -23,6 +24,7 @@ public class MainPageActivity extends AppCompatActivity {
 
     private static final int RESULT_LOAD_IMAGE = 5;
     private ImageView imageView;
+    File pictureDirectory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,35 +43,33 @@ public class MainPageActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(i, RESULT_LOAD_IMAGE);
+        //Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+       // startActivityForResult(i, RESULT_LOAD_IMAGE);
+        pictureDirectory = new File("Happy Healthy Tummy");
+        Bundle retrievalData = getIntent().getExtras();
+        if (retrievalData != null) {
+            String uriAsAString = (String) retrievalData.get("File Uri");
+            Uri selectedImage = Uri.parse(uriAsAString);
+            try {
+                //Bitmap bitmap = pictureDirectory.getBitmap(this.getContentResolver(), selectedImage);
+                imageView.setImageBitmap(BitmapFactory.decodeStream(this.getContentResolver().openInputStream(selectedImage)));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                System.out.println("file wasn't found from main page");
+            }
+        } else {
+            System.out.println("intent's extras are null for some reason");
+        }
+        //Uri selectedImage = Uri.parse( (String) getIntent().getExtras().get("File Uri"));
+//        try {
+//            BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage));
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+
     }
 
-//    private Bitmap getImageFromGallery() {
-//        try{
-//            Intent i = new Intent(Intent.ACTION_PICK,
-//                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//            startActivityForResult(i, RESULT_LOAD_IMAGE);
-//        }catch(Exception exp){
-//            Log.i("Error",exp.toString());
-//        }
-//    }
-
-
     @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-//            Uri selectedImage = data.getData();
-//            String[] pictureFilePathCol = {MediaStore.Images.Media.DATA};
-//            Cursor cursor = getContentResolver().query(selectedImage, pictureFilePathCol, null, null, null);
-//            cursor.moveToFirst();
-//
-//            int columnIndex = cursor.getColumnIndex(pictureFilePathCol[0]);
-//            String picturePath = cursor.getString(columnIndex);
-//            cursor.close();
-//            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-//        }
-//    }
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 

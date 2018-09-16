@@ -1,6 +1,11 @@
 package edu.awilkins6gatech.happyhealthytummyapp.Controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +44,7 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
 
     Button captureButton;
     private Uri fileUri; // file url to store image/video
+    static File mediaStorageDir;
 
 
     private GestureDetectorCompat gestureDetectorCompat;
@@ -53,15 +59,15 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
         //gestures
         gestureDetectorCompat = new GestureDetectorCompat(this, new MyGestureListener());
 
-        captureImage();
-        captureButton = (Button)findViewById(R.id.captureButton);
-        captureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                captureImage();
-            }
-        });
+        // External sdcard location
+        mediaStorageDir = new File(
+                Environment
+                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                IMAGE_DIRECTORY_NAME);
 
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // start the image capture Intent
+        startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
 
         mPreview = findViewById(R.id.preview);
         mPreview.getHolder().addCallback(this);
@@ -79,21 +85,7 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
         return super.onTouchEvent(event);
     }
 
-
-
     //camera functionality
-
-    /*
-     * Capturing Camera Image will launch camera app  and request image capture
-     */
-    private void captureImage() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-
-
-        // start the image capture Intent
-        startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
-    }
 
     /**
      * Receiving activity result method will be called after taking a picture
@@ -104,11 +96,33 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
         if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // successfully captured the image
-                //fileUri = getOutputMediaFileUri(1);
+                fileUri = getOutputMediaFileUri(1);
+                File source = new File(fileUri.getPath());
+                FileChannel src = null;
+                FileChannel dst = null;
+                try {
+                    src = new FileInputStream(source).getChannel();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    dst = new FileOutputStream(mediaStorageDir).getChannel();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                if (dst != null && src != null) {
+                    try {
+                        dst.transferFrom(src, 0, src.size());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.out.println("destination or source file was null");
+                }
                 //move onto next activity
                 Intent intent = new Intent(
                         LandingActivity.this, AddEntryPageActivity.class);
-                //intent.putExtra("File Uri", fileUri.toString());
+                intent.putExtra("File Uri", String.valueOf(fileUri));
                 startActivity(intent);
                 //captureImage();
             } else if (resultCode == RESULT_CANCELED) {
@@ -151,22 +165,34 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
     //Helper Methods
     public Uri getOutputMediaFileUri(int type) {
 //        return Uri.fromFile(getOutputMediaFile(type));
-        return FileProvider.getUriForFile(LandingActivity.this, LandingActivity.this.getApplicationContext().getPackageName() + ".provider", getOutputMediaFile(type));
+        try {
+            return FileProvider.getUriForFile(LandingActivity.this, LandingActivity.this.getApplicationContext().getPackageName() + ".provider", getOutputMediaFile(type));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
-    private static File getOutputMediaFile(int type) {
+    private File getOutputMediaFile(int type) throws IOException {
+        System.out.println("got to output media file");
 
-        // External sdcard location
-        File mediaStorageDir = new File(
-                Environment
-                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                IMAGE_DIRECTORY_NAME);
+//        // External sdcard location
+//        File mediaStorageDir = new File(
+//                Environment
+//                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+//                IMAGE_DIRECTORY_NAME);
 
         // Create the storage directory if it does not exist
+        //            if (!mediaStorageDir.mkdirs()) {
+//                Log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create "
+//                        + IMAGE_DIRECTORY_NAME + " directory");
+//                return null;
+//            }
         if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create "
-                        + IMAGE_DIRECTORY_NAME + " directory");
-                return null;
+            try {
+                mediaStorageDir.createNewFile();
+                mediaStorageDir.mkdir();
+            } catch (IOException e) {
+                System.out.println("Caught IOException: " + e.getMessage());
             }
         }
 
@@ -178,9 +204,10 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
                     + "IMG_" + timeStamp + ".jpg");
         } else {
+            System.out.println("finished output file");
             return null;
         }
-
+        System.out.println("finished output file");
         return mediaFile;
     }
 

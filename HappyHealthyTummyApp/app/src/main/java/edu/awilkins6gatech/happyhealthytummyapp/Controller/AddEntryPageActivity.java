@@ -37,6 +37,7 @@ public class AddEntryPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent goToMainPage = new Intent(AddEntryPageActivity.this, MainPageActivity.class);
+                goToMainPage.putExtra("File Uri", (String) getIntent().getExtras().get("File Uri"));
                 startActivity(goToMainPage);
             }
         });
