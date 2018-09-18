@@ -45,31 +45,6 @@ public class MainPageActivity extends AppCompatActivity {
         startActivityForResult(i, RESULT_LOAD_IMAGE);
     }
 
-//    private Bitmap getImageFromGallery() {
-//        try{
-//            Intent i = new Intent(Intent.ACTION_PICK,
-//                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//            startActivityForResult(i, RESULT_LOAD_IMAGE);
-//        }catch(Exception exp){
-//            Log.i("Error",exp.toString());
-//        }
-//    }
-
-
-    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-//            Uri selectedImage = data.getData();
-//            String[] pictureFilePathCol = {MediaStore.Images.Media.DATA};
-//            Cursor cursor = getContentResolver().query(selectedImage, pictureFilePathCol, null, null, null);
-//            cursor.moveToFirst();
-//
-//            int columnIndex = cursor.getColumnIndex(pictureFilePathCol[0]);
-//            String picturePath = cursor.getString(columnIndex);
-//            cursor.close();
-//            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-//        }
-//    }
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
