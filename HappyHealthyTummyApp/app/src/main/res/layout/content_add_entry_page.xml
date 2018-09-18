@@ -42,5 +42,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Description" />
+
+        <ImageView
+            android:id="@+id/foodImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/ic_launcher" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -1,9 +1,11 @@
 package edu.awilkins6gatech.happyhealthytummyapp.Controller;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
@@ -11,6 +13,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import android.graphics.Bitmap;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
@@ -33,6 +38,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
+import edu.awilkins6gatech.happyhealthytummyapp.Model.ImagePicker;
 import edu.awilkins6gatech.happyhealthytummyapp.R;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
@@ -42,9 +48,9 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
     Camera mCamera;
     SurfaceView mPreview;
 
-    Button captureButton;
     private Uri fileUri; // file url to store image/video
     static File mediaStorageDir;
+    Bitmap bmp;
 
 
     private GestureDetectorCompat gestureDetectorCompat;
@@ -64,6 +70,7 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
                 Environment
                         .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
                 IMAGE_DIRECTORY_NAME);
+        mediaStorageDir.mkdir();
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // start the image capture Intent
@@ -96,33 +103,16 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
         if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // successfully captured the image
+                //bmp = ImagePicker.getImageFromResult(this, resultCode, data);
+                bmp = (Bitmap) data.getExtras().get("data");
                 fileUri = getOutputMediaFileUri(1);
-                File source = new File(fileUri.getPath());
-                FileChannel src = null;
-                FileChannel dst = null;
-                try {
-                    src = new FileInputStream(source).getChannel();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    dst = new FileOutputStream(mediaStorageDir).getChannel();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                if (dst != null && src != null) {
-                    try {
-                        dst.transferFrom(src, 0, src.size());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    System.out.println("destination or source file was null");
-                }
+                //data.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+
                 //move onto next activity
                 Intent intent = new Intent(
                         LandingActivity.this, AddEntryPageActivity.class);
                 intent.putExtra("File Uri", String.valueOf(fileUri));
+                //intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
                 startActivity(intent);
                 //captureImage();
             } else if (resultCode == RESULT_CANCELED) {
@@ -150,14 +140,14 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
 
         // save file url in bundle as it will be null on screen orientation
         // changes
-        outState.putParcelable("file_uri", fileUri);
+        outState.putParcelable("File Uri", fileUri);
     }
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
         // get the file url
-        fileUri = savedInstanceState.getParcelable("file_uri");
+        fileUri = savedInstanceState.getParcelable("File Uri");
     }
 
 
@@ -169,42 +159,43 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
             return FileProvider.getUriForFile(LandingActivity.this, LandingActivity.this.getApplicationContext().getPackageName() + ".provider", getOutputMediaFile(type));
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("uri not returned");
             return null;
         }
     }
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private File getOutputMediaFile(int type) throws IOException {
         System.out.println("got to output media file");
 
-//        // External sdcard location
-//        File mediaStorageDir = new File(
-//                Environment
-//                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-//                IMAGE_DIRECTORY_NAME);
-
-        // Create the storage directory if it does not exist
-        //            if (!mediaStorageDir.mkdirs()) {
-//                Log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create "
-//                        + IMAGE_DIRECTORY_NAME + " directory");
-//                return null;
-//            }
         if (!mediaStorageDir.exists()) {
-            try {
-                mediaStorageDir.createNewFile();
-                mediaStorageDir.mkdir();
-            } catch (IOException e) {
-                System.out.println("Caught IOException: " + e.getMessage());
-            }
+            mediaStorageDir = new File(
+                    Environment
+                            .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                    IMAGE_DIRECTORY_NAME);
+            mediaStorageDir.mkdir();
+            System.out.println("directory supposedly made");
         }
 
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                 Locale.getDefault()).format(new Date());
         File mediaFile;
+
         if (type == 1) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
                     + "IMG_" + timeStamp + ".jpg");
+            try (FileOutputStream out = new FileOutputStream(mediaFile)) {
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
+                // PNG is a lossless format, the compression factor (100) is ignored
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//            BufferedWriter writer = new BufferedWriter(new FileWriter(mediaFile));
+//            writer.write(String.valueOf(bmp));
+//            writer.close();
         } else {
-            System.out.println("finished output file");
+            System.out.println("file not created");
+
             return null;
         }
         System.out.println("finished output file");
@@ -267,6 +258,7 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         try {
+            mCamera.stopPreview();
             mCamera.setPreviewDisplay(mPreview.getHolder());
         } catch (Exception e) {
             e.printStackTrace();

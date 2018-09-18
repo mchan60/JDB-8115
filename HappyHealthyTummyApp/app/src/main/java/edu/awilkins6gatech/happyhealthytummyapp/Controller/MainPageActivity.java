@@ -45,7 +45,7 @@ public class MainPageActivity extends AppCompatActivity {
         });
         //Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
        // startActivityForResult(i, RESULT_LOAD_IMAGE);
-        pictureDirectory = new File("Happy Healthy Tummy");
+        //pictureDirectory = new File("Happy Healthy Tummy");
         Bundle retrievalData = getIntent().getExtras();
         if (retrievalData != null) {
             String uriAsAString = (String) retrievalData.get("File Uri");
@@ -53,6 +53,7 @@ public class MainPageActivity extends AppCompatActivity {
             try {
                 //Bitmap bitmap = pictureDirectory.getBitmap(this.getContentResolver(), selectedImage);
                 imageView.setImageBitmap(BitmapFactory.decodeStream(this.getContentResolver().openInputStream(selectedImage)));
+                System.out.println("file was found");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 System.out.println("file wasn't found from main page");
