@@ -3,17 +3,22 @@ package edu.awilkins6gatech.happyhealthytummyapp.Controller;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.awilkins6gatech.happyhealthytummyapp.R;
-import edu.awilkins6gatech.happyhealthytummyapp.Resource.DiaryEntry;
 
 import java.io.File;
 
+import edu.awilkins6gatech.happyhealthytummyapp.Model.DiaryEntry;
+import edu.awilkins6gatech.happyhealthytummyapp.R;
+
 public class AddEntryActivity extends AppCompatActivity {
 
+    Button buttonAdd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_add_entry);
 
         Intent intent =  getIntent();
@@ -23,7 +28,7 @@ public class AddEntryActivity extends AppCompatActivity {
     protected static DiaryEntry createEntry(DiaryEntry entry) {
         ObjectMapper mapper = new ObjectMapper();
         File directory = new File("Entries");
-        File jsonFileOutput = new File("Entries/" + Long.toString(entry.Timestamp) + ".json");
+        File jsonFileOutput = new File("Entries/" + Long.toString(entry.getTimestamp()) + ".json");
         try {
             if (!directory.exists()) directory.mkdir();
             jsonFileOutput.createNewFile();
