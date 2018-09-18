@@ -113,7 +113,7 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
                 fileUri = getOutputMediaFileUri(1);
                 //move onto next activity
                 Intent intent = new Intent(
-                        LandingActivity.this, AddEntryActivity.class);
+                        LandingActivity.this, AddEntryPageActivity.class);
                 intent.putExtra("File Uri", fileUri.toString());
                 startActivity(intent);
             } else if (resultCode == RESULT_CANCELED) {
