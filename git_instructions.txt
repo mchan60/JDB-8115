@@ -1,0 +1,24 @@
+Basics:
+git add "file" - adds file to commit
+git commit -m "message" - commits changes that have been added to your local branch
+git pull - pulls any changes made to the branch since last pull
+git push - pushes any changes made on your local branch to the repo
+git merge "branch" - merges specified branch onto local branch
+git checkout - updates in local branch to version specified
+git stash - takes any unadded changes and puts them on a stack to be retrieved later
+git fetch --all - updates all local branches for the repo
+
+Procedures for merging:
+1. add, commit, push any changes you want to make to the branch you are working on and stash the rest
+2. checkout the dev branch
+3. git pull
+4. checkout branch you are working on
+5. git merge dev
+
+** IMPORTANT **
+RESOLVING MERGE CONFLICTS
+Given there are merge conflicts these must be resolved before making a pull request
+1. Go through each file and find location of merge conflicts
+2. Choose which portions of code should be kept either code from the dev branch or yours
+3. AFter merge conflicts have been resolved add, commit, and push your changes with the appropriate message
+4. Submit a pull request on github and tag everyone in the team to review the code
