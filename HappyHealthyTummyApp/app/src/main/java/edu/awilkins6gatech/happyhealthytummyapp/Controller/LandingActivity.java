@@ -154,7 +154,6 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
 
     //Helper Methods
     public Uri getOutputMediaFileUri(int type) {
-//        return Uri.fromFile(getOutputMediaFile(type));
         try {
             return FileProvider.getUriForFile(LandingActivity.this, LandingActivity.this.getApplicationContext().getPackageName() + ".provider", getOutputMediaFile(type));
         } catch (IOException e) {
@@ -163,42 +162,32 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
             return null;
         }
     }
+
+
+
+
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private File getOutputMediaFile(int type) throws IOException {
-        System.out.println("got to output media file");
-
-        if (!mediaStorageDir.exists()) {
-            mediaStorageDir = new File(
-                    Environment
-                            .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                    IMAGE_DIRECTORY_NAME);
-            mediaStorageDir.mkdir();
-            System.out.println("directory supposedly made");
-        }
+        File mediaStorageDir = getDirectory();
 
         // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
-                Locale.getDefault()).format(new Date());
         File mediaFile;
-
         if (type == 1) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
-                    + "IMG_" + timeStamp + ".jpg");
+                    + getFileName());
             try (FileOutputStream out = new FileOutputStream(mediaFile)) {
                 bmp.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
                 // PNG is a lossless format, the compression factor (100) is ignored
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//            BufferedWriter writer = new BufferedWriter(new FileWriter(mediaFile));
-//            writer.write(String.valueOf(bmp));
-//            writer.close();
+
         } else {
             System.out.println("file not created");
 
             return null;
         }
-        System.out.println("finished output file");
         return mediaFile;
     }
 
@@ -268,6 +257,24 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         Log.i("PREVIEW", "surfaceDestroyed");
+    }
+
+    private File getDirectory() {
+        if (!mediaStorageDir.exists()) {
+            mediaStorageDir = new File(
+                    Environment
+                            .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                    IMAGE_DIRECTORY_NAME);
+            mediaStorageDir.mkdir();
+            System.out.println("directory supposedly made");
+        }
+        return mediaStorageDir;
+    }
+
+    private String getFileName() {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                Locale.getDefault()).format(new Date());
+        return "IMG_" + timeStamp + ".jpg";
     }
 
 }
