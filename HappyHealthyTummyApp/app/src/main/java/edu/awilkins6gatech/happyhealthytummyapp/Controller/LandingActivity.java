@@ -273,7 +273,7 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
     }
 
     private String getFileName() {
-        return "IMG_" + timeStamp + ".jpg";
+        return "IMG_" + getTimestamp() + ".jpg";
     }
 
     private String getTimestamp() {
