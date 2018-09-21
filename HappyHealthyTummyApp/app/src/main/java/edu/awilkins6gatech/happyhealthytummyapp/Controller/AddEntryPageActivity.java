@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import edu.awilkins6gatech.happyhealthytummyapp.Model.DiaryEntry;
 import edu.awilkins6gatech.happyhealthytummyapp.R;
 
 public class AddEntryPageActivity extends AppCompatActivity {
@@ -62,6 +63,9 @@ public class AddEntryPageActivity extends AppCompatActivity {
         postEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                DiaryEntry newDiaryEntry = new DiaryEntry(Uri.parse((String) getIntent().getExtras().get("File Uri")),0,
+                        (String) getIntent().getExtras().get("Time Stamp"), "", "", false);
+                newDiaryEntry.createEntry(newDiaryEntry);
                 Intent goToMainPage = new Intent(AddEntryPageActivity.this, MainPageActivity.class);
                 goToMainPage.putExtra("File Uri", (String) getIntent().getExtras().get("File Uri"));
                 startActivity(goToMainPage);

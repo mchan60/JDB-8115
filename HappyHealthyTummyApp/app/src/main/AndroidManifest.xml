@@ -48,7 +48,6 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".Controller.AddEntryActivity" />
         <activity
             android:name=".Controller.AddEntryPageActivity"
             android:label="@string/title_activity_add_entry_page"
