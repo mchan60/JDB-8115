@@ -47,18 +47,18 @@ public class MainPageActivity extends AppCompatActivity {
         imageView2 = (ImageView) findViewById(R.id.imageView2);
         imageView3 = (ImageView) findViewById(R.id.imageView3);
 
-        DiaryEntry dummyEntryForData = new DiaryEntry();
-        diaryJsonFiles = dummyEntryForData.getDiaryEntries();
-        ObjectMapper mapper = new ObjectMapper();
-        if (diaryJsonFiles != null) {
-            for (File file : diaryJsonFiles) {
-                try {
-                    diaryEntries.add(mapper.readValue(file, DiaryEntry.class));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    System.out.println("file not found to be added to entries list");
-                }
-            }
+        //DiaryEntry dummyEntryForData = new DiaryEntry();
+        diaryEntries = DiaryEntry.getDiaryEntries();
+        //ObjectMapper mapper = new ObjectMapper();
+        if (!diaryEntries.isEmpty()) {
+//            for (File file : diaryJsonFiles) {
+//                try {
+//                    diaryEntries.add(mapper.readValue(file, DiaryEntry.class));
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    System.out.println("file not found to be added to entries list");
+//                }
+//            }
 
             Uri selectedImage2 = diaryEntries.get(diaryEntries.size() - 1).getFileUri();
             Uri selectedImage3 = diaryEntries.get(diaryEntries.size() - 2).getFileUri();

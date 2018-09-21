@@ -102,22 +102,27 @@ public class DiaryEntry {
         return null;
     }
 
-    public List<File> getDiaryEntries() {
-        File tempFile = new File("Entries/");
+    public static List<DiaryEntry> getDiaryEntries() {
         File fileDir = new File("Entries/");
         File[] diaryEntries = fileDir.listFiles();
-        if (diaryEntries != null) {
-            ArrayList<File> diaryEntriesList = new ArrayList<File>(Arrays.asList(diaryEntries));
-            return diaryEntriesList;
-        } else {
-            return null;
+        List<DiaryEntry> output = new ArrayList<>();
+        for (File file : diaryEntries) {
+            output.add(readEntry(file.getName()));
+            System.out.println(file.getName());
         }
+        return output;
+//        if (diaryEntries != null) {
+//            ArrayList<File> diaryEntriesList = new ArrayList<>(Arrays.asList(diaryEntries));
+//            return diaryEntriesList;
+//        } else {
+//            return null;
+//        }
     }
 
-    public DiaryEntry readEntry(String timestamp) {
+    public static DiaryEntry readEntry(String timestamp) {
         ObjectMapper mapper = new ObjectMapper();
         DiaryEntry entry = new DiaryEntry();
-        File jsonFile = new File("Entries/" + timestamp + ".json");
+        File jsonFile = new File("Entries/" + timestamp);
         try {
             entry = mapper.readValue(jsonFile, DiaryEntry.class);
         }catch (Exception e) {
@@ -126,7 +131,7 @@ public class DiaryEntry {
         return entry;
     }
 
-    public DiaryEntry editEntry(DiaryEntry newEntry, String timestamp) {
+    public DiaryEntry editEntry(DiaryEntry newEntry) {
         ObjectMapper mapper = new ObjectMapper();
         DiaryEntry entry = new DiaryEntry();
         File jsonFile = new File("Entries/" + timestamp + ".json");
@@ -139,7 +144,7 @@ public class DiaryEntry {
         return entry;
     }
 
-    public DiaryEntry deleteEntry(String timestamp) {
+    public DiaryEntry deleteEntry() {
         ObjectMapper mapper = new ObjectMapper();
         DiaryEntry entry = new DiaryEntry();
         File jsonFile = new File("Entries/" + timestamp + ".json");
@@ -150,5 +155,17 @@ public class DiaryEntry {
             System.out.println("A reading error occurred: \n" + e.getMessage()); //TODO: send to log file
         }
         return entry;
+    }
+
+    @Override
+    public boolean equals(Object entry) {
+        boolean isEqual;
+        if (entry instanceof DiaryEntry) {
+            DiaryEntry diaryEntry = (DiaryEntry) entry;
+            isEqual = timestamp.equals(diaryEntry.getTimestamp());
+        } else {
+            isEqual = false;
+        }
+        return isEqual;
     }
 }
