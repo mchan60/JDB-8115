@@ -51,6 +51,10 @@
         <activity
             android:name=".Controller.AddEntryPageActivity"
             android:label="@string/title_activity_add_entry_page"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Controller.ViewEntryActivity"
+            android:label="@string/title_activity_view_entry"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

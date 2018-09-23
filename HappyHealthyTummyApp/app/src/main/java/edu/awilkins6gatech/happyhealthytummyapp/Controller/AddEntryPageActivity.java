@@ -12,7 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -29,6 +31,11 @@ public class AddEntryPageActivity extends AppCompatActivity {
     Uri selectedImage;
     Bitmap bitmap;
 
+    EditText title;
+    EditText description;
+    EditText calories;
+    Switch happy;
+
     ArrayList<DiaryEntry> diaryEntries;
 
     EntryDB entriesDB;
@@ -42,6 +49,11 @@ public class AddEntryPageActivity extends AppCompatActivity {
 
         postEntryButton = (Button)(findViewById(R.id.postEntryButton));
         foodImage = (ImageView)(findViewById(R.id.foodImage));
+
+        title = (EditText)(findViewById(R.id.title));
+        description = (EditText)(findViewById(R.id.description));
+        calories = (EditText)(findViewById(R.id.calories));
+        happy = (Switch)(findViewById(R.id.switch1));
 
         diaryEntries = new ArrayList<DiaryEntry>();
         entriesDB = new EntryDB(this);
@@ -72,17 +84,31 @@ public class AddEntryPageActivity extends AppCompatActivity {
         postEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DiaryEntry newDiaryEntry = new DiaryEntry((String) getIntent().getExtras().get("File Uri"),0,
-                        (String) getIntent().getExtras().get("Time Stamp"), "title", "description", 0);
-                diaryEntries.add(newDiaryEntry);
-                entriesDB.addEntry(newDiaryEntry);
-                newDiaryEntry.createEntry(newDiaryEntry);
+                addDiaryEntry();
                 Intent goToMainPage = new Intent(AddEntryPageActivity.this, MainPageActivity.class);
                 goToMainPage.putExtra("File Uri", (String) getIntent().getExtras().get("File Uri"));
                 startActivity(goToMainPage);
             }
         });
 
+    }
+
+    String newTitle, newDescription;
+    int newCalories, newHappy;
+    private void addDiaryEntry() {
+        newTitle = title.getText().toString();
+        newDescription = description.getText().toString();
+        newCalories = Integer.parseInt(calories.getText().toString());
+
+        if (happy.isChecked()) {
+            newHappy = 1;
+        } else {
+            newHappy = 0;
+        }
+        DiaryEntry newDiaryEntry = new DiaryEntry((String) getIntent().getExtras().get("File Uri"),newCalories,
+                (String) getIntent().getExtras().get("Time Stamp"), newTitle, newDescription, newHappy);
+        diaryEntries.add(newDiaryEntry);
+        entriesDB.addEntry(newDiaryEntry);
     }
 
 }
