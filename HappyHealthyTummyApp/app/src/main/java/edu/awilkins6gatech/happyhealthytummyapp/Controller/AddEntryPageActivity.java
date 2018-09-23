@@ -16,7 +16,9 @@ import android.widget.ImageView;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
+import edu.awilkins6gatech.happyhealthytummyapp.Data.EntryDB;
 import edu.awilkins6gatech.happyhealthytummyapp.Model.DiaryEntry;
 import edu.awilkins6gatech.happyhealthytummyapp.R;
 
@@ -27,6 +29,10 @@ public class AddEntryPageActivity extends AppCompatActivity {
     Uri selectedImage;
     Bitmap bitmap;
 
+    ArrayList<DiaryEntry> diaryEntries;
+
+    EntryDB entriesDB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +42,9 @@ public class AddEntryPageActivity extends AppCompatActivity {
 
         postEntryButton = (Button)(findViewById(R.id.postEntryButton));
         foodImage = (ImageView)(findViewById(R.id.foodImage));
+
+        diaryEntries = new ArrayList<DiaryEntry>();
+        entriesDB = new EntryDB(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -63,8 +72,10 @@ public class AddEntryPageActivity extends AppCompatActivity {
         postEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DiaryEntry newDiaryEntry = new DiaryEntry(Uri.parse((String) getIntent().getExtras().get("File Uri")),0,
-                        (String) getIntent().getExtras().get("Time Stamp"), "", "", false);
+                DiaryEntry newDiaryEntry = new DiaryEntry((String) getIntent().getExtras().get("File Uri"),0,
+                        (String) getIntent().getExtras().get("Time Stamp"), "title", "description", 0);
+                diaryEntries.add(newDiaryEntry);
+                entriesDB.addEntry(newDiaryEntry);
                 newDiaryEntry.createEntry(newDiaryEntry);
                 Intent goToMainPage = new Intent(AddEntryPageActivity.this, MainPageActivity.class);
                 goToMainPage.putExtra("File Uri", (String) getIntent().getExtras().get("File Uri"));

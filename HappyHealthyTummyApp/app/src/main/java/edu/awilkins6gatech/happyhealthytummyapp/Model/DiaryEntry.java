@@ -2,6 +2,9 @@ package edu.awilkins6gatech.happyhealthytummyapp.Model;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -14,16 +17,17 @@ import java.util.Date;
 import java.util.List;
 
 public class DiaryEntry {
-    private Uri fileUri;
+    private String fileUri;
     private int calories;
     private String timestamp;
     private String title;
     private String description;
-    private boolean happy;
+    private int happy;
+    private static final String ENTRY_DIRECTORY_NAME = "Entries";
     //private ArrayList
     //private Bitmap
 
-    public DiaryEntry (Uri fileUri, int calories, String timestamp, String title, String description, boolean happy) {
+    public DiaryEntry (String fileUri, int calories, String timestamp, String title, String description, int happy) {
         this.fileUri = fileUri;
         this.calories = calories;
         //timestamp = System.currentTimeMillis();
@@ -37,7 +41,7 @@ public class DiaryEntry {
 //        timestamp = System.currentTimeMillis();
 //        fileUri = Uri.parse(Long.toString(timestamp));
 //        calories = -1;
-        this(null, 0, "0", "N/A", "N/A", false);
+        this(null, 0, "0", "N/A", "N/A", 0);
     }
 
     public void setCalories(int calories) {
@@ -47,11 +51,11 @@ public class DiaryEntry {
         return calories;
     }
 
-    public void setFileUri(Uri fileUri) {
+    public void setFileUri(String fileUri) {
         this.fileUri = fileUri;
     }
 
-    public Uri getFileUri() {
+    public String getFileUri() {
         return fileUri;
     }
 
@@ -79,11 +83,11 @@ public class DiaryEntry {
         return  timestamp;
     }
 
-    public void setHappy(boolean happy) {
+    public void setHappy(int happy) {
         this.happy = happy;
     }
 
-    public boolean getHappy() {
+    public int getHappy() {
         return happy;
     }
 
@@ -103,12 +107,14 @@ public class DiaryEntry {
     }
 
     public static List<DiaryEntry> getDiaryEntries() {
-        File fileDir = new File("Entries/");
+        File fileDir = new File(Environment
+                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                ENTRY_DIRECTORY_NAME);
         File[] diaryEntries = fileDir.listFiles();
         List<DiaryEntry> output = new ArrayList<>();
         for (File file : diaryEntries) {
             output.add(readEntry(file.getName()));
-            System.out.println(file.getName());
+                System.out.println(file.getName());
         }
         return output;
 //        if (diaryEntries != null) {
@@ -168,4 +174,42 @@ public class DiaryEntry {
         }
         return isEqual;
     }
+
+//    private DiaryEntry(Parcel in) {
+//        fileUri = in.readString();
+//        calories = in.readInt();
+//        timestamp = in.readString();
+//        title = in.readString();
+//        description = in.readString();
+//        happy = in.readInt();
+//    }
+//
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    /* *************************
+//       If you add new instance vars to Student, you will need to add them to the write
+//     */
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        dest.writeString(fileUri);
+//        dest.writeInt(calories);
+//        dest.writeString(timestamp);
+//        dest.writeString(title);
+//        dest.writeString(description);
+//        dest.writeInt(happy);
+//    }
+//
+//    public static final Parcelable.Creator<DiaryEntry> CREATOR
+//            = new Parcelable.Creator<DiaryEntry>() {
+//        public DiaryEntry createFromParcel(Parcel in) {
+//            return new DiaryEntry(in);
+//        }
+//
+//        public DiaryEntry[] newArray(int size) {
+//            return new DiaryEntry[size];
+//        }
+//    };
 }

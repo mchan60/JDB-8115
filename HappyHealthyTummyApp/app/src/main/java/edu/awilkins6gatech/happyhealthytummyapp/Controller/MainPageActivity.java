@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import edu.awilkins6gatech.happyhealthytummyapp.Data.EntryDB;
 import edu.awilkins6gatech.happyhealthytummyapp.Model.DiaryEntry;
 import edu.awilkins6gatech.happyhealthytummyapp.R;
 
@@ -35,6 +36,9 @@ public class MainPageActivity extends AppCompatActivity {
     private ImageView imageView3;
     List<DiaryEntry> diaryEntries;
     List<File> diaryJsonFiles;
+
+    EntryDB entryDB;
+    List<DiaryEntry> entriesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +52,11 @@ public class MainPageActivity extends AppCompatActivity {
         imageView3 = (ImageView) findViewById(R.id.imageView3);
 
         //DiaryEntry dummyEntryForData = new DiaryEntry();
-        diaryEntries = DiaryEntry.getDiaryEntries();
+        entryDB = new EntryDB(this);
+        entriesList = entryDB.getEntries();
+        //diaryEntries = DiaryEntry.getDiaryEntries();
         //ObjectMapper mapper = new ObjectMapper();
-        if (!diaryEntries.isEmpty()) {
+       // if (!diaryEntries.isEmpty()) {
 //            for (File file : diaryJsonFiles) {
 //                try {
 //                    diaryEntries.add(mapper.readValue(file, DiaryEntry.class));
@@ -60,27 +66,32 @@ public class MainPageActivity extends AppCompatActivity {
 //                }
 //            }
 
-            Uri selectedImage2 = diaryEntries.get(diaryEntries.size() - 1).getFileUri();
-            Uri selectedImage3 = diaryEntries.get(diaryEntries.size() - 2).getFileUri();
-
-            try {
-                imageView2.setImageBitmap(BitmapFactory.decodeStream(this.getContentResolver().openInputStream(selectedImage2)));
-                System.out.println("image 2 found");
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                System.out.println("image 2 not found");
+//            Uri selectedImage2 = Uri.parse(diaryEntries.get(diaryEntries.size() - 1).getFileUri());
+//            Uri selectedImage3 = Uri.parse(diaryEntries.get(diaryEntries.size() - 2).getFileUri());
+            if (entriesList.size() > 0) {
+                Uri selectedImage2 = Uri.parse(entriesList.get(entriesList.size() - 1).getFileUri());
+                try {
+                    imageView2.setImageBitmap(BitmapFactory.decodeStream(this.getContentResolver().openInputStream(selectedImage2)));
+                    System.out.println("image 2 found");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    System.out.println("image 2 not found");
+                }
             }
+            if (entriesList.size() > 1) {
+                Uri selectedImage3 = Uri.parse(entriesList.get(entriesList.size() - 2).getFileUri());
 
-            try {
-                imageView3.setImageBitmap(BitmapFactory.decodeStream(this.getContentResolver().openInputStream(selectedImage3)));
-                System.out.println("image 3 found");
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                System.out.println("image 3 not found");
+                try {
+                    imageView3.setImageBitmap(BitmapFactory.decodeStream(this.getContentResolver().openInputStream(selectedImage3)));
+                    System.out.println("image 3 found");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    System.out.println("image 3 not found");
+                }
             }
-        } else {
-            System.out.println("directory returned null on main");
-        }
+        //} else {
+            //System.out.println("directory returned null on main");
+        //}
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
