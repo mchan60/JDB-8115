@@ -8,6 +8,13 @@ git checkout - updates in local branch to version specified
 git stash - takes any unadded changes and puts them on a stack to be retrieved later
 git fetch --all - updates all local branches for the repo
 
+Creating New Branch:
+1. git checkout dev - make sure ur on the dev branch
+2. git pull - make sure ur dev branch is up to date
+3. git branch "new_branch" - creates new branch locally
+4. git checkout "new_branch" - switches to new branch
+5. git push --set-upstream origin "new_branch" - pushes new branch and adds it to tree
+
 Procedures for merging:
 1. add, commit, push any changes you want to make to the branch you are working on and stash the rest
 2. checkout the dev branch
