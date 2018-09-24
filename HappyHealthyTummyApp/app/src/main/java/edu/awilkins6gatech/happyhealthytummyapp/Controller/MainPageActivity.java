@@ -18,6 +18,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,11 +27,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+
 
 import edu.awilkins6gatech.happyhealthytummyapp.Data.EntryDB;
 import edu.awilkins6gatech.happyhealthytummyapp.Model.DiaryEntry;
@@ -133,6 +139,20 @@ public class MainPageActivity extends AppCompatActivity {
         } else {
             System.out.println("intent's extras are null for some reason");
         }
+
+        // Create a dummy list of 20 images
+        ArrayList<String> entryList = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            entryList.add("");
+        }
+
+        ArrayAdapter<String> entryAdapter = new EntriesAdapter<String>(this,
+                R.id.entry_list_template, entryList);
+
+        ListView listView = (ListView) this.findViewById(R.id.entries_list);
+        listView.setAdapter(entryAdapter);
+
+
     }
 
     public static <T, E> T getKeyFromValue(E value, Map<T, E> map) {
