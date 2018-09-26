@@ -9,6 +9,7 @@ import android.os.Parcelable;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +17,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class DiaryEntry {
+public class DiaryEntry implements Serializable {
+    private String entryID;
     private String fileUri;
     private int calories;
     private String timestamp;
@@ -27,7 +29,19 @@ public class DiaryEntry {
     //private ArrayList
     //private Bitmap
 
+    public DiaryEntry() {
+        this.entryID = "0";
+        this.fileUri = null;
+        this.calories = 0;
+        this.timestamp = "0";
+        this.title = "N/A";
+        this.description = "N/A";
+        this.happy = 0;
+    }
+
     public DiaryEntry (String fileUri, int calories, String timestamp, String title, String description, int happy) {
+        this();
+        this.entryID = timestamp;
         this.fileUri = fileUri;
         this.calories = calories;
         //timestamp = System.currentTimeMillis();
@@ -37,16 +51,12 @@ public class DiaryEntry {
         this.happy = happy;
     }
 
-    public DiaryEntry() {
-//        timestamp = System.currentTimeMillis();
-//        fileUri = Uri.parse(Long.toString(timestamp));
-//        calories = -1;
-        this(null, 0, "0", "N/A", "N/A", 0);
-    }
+    public String getEntryID() { return entryID; }
 
     public void setCalories(int calories) {
         this.calories = calories;
     }
+
     public int getCalories() {
         return calories;
     }

@@ -32,8 +32,11 @@ public class ViewEntryActivity extends AppCompatActivity {
 
     EntryDB entryDB;
     List<DiaryEntry> entriesList;
+    DiaryEntry entry;
 
     Button backToMainPage;
+    Button editDiaryEntry;
+    Button deleteDiaryEntry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,24 +53,28 @@ public class ViewEntryActivity extends AppCompatActivity {
         happy = (TextView) (findViewById(R.id.happy));
 
         backToMainPage = (Button) (findViewById(R.id.backToDiaryButton));
+        editDiaryEntry = (Button) (findViewById(R.id.editButton));
+        deleteDiaryEntry = (Button) (findViewById(R.id.deleteButton));
 
         entriesIndex = (int) getIntent().getExtras().get("DIARY_ENTRY");
 
         entryDB = new EntryDB(this);
         entriesList = entryDB.getEntries();
 
-        Uri selectedImage = Uri.parse(entriesList.get(entriesIndex).getFileUri());
+        entry = entriesList.get(entriesIndex);
+
+        Uri selectedImage = Uri.parse(entry.getFileUri());
         try {
             image.setImageBitmap(BitmapFactory.decodeStream(this.getContentResolver().openInputStream(selectedImage)));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        timestamp.setText(entriesList.get(entriesIndex).getTimestamp());
-        title.setText(entriesList.get(entriesIndex).getTitle());
-        description.setText(entriesList.get(entriesIndex).getDescription());
-        calories.setText(Integer.toString(entriesList.get(entriesIndex).getCalories()));
-        if (entriesList.get(entriesIndex).getHappy() == 1) {
+        timestamp.setText(entry.getTimestamp());
+        title.setText(entry.getTitle());
+        description.setText(entry.getDescription());
+        calories.setText(Integer.toString(entry.getCalories()));
+        if (entry.getHappy() == 1) {
             happy.setText("Happy!");
         } else {
             happy.setText("Not Happy!");
@@ -86,6 +93,24 @@ public class ViewEntryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent goBackToMain = new Intent(ViewEntryActivity.this, MainPageActivity.class);
+                startActivity(goBackToMain);
+            }
+        });
+
+        editDiaryEntry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goToEditEntry = new Intent(ViewEntryActivity.this, EditEntryPageActivity.class);
+                goToEditEntry.putExtra("DIARY ENTRY", entry);
+                startActivity(goToEditEntry);
+            }
+        });
+
+        deleteDiaryEntry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goBackToMain = new Intent(ViewEntryActivity.this, MainPageActivity.class);
+                entryDB.deleteEntry(entry.getEntryID());
                 startActivity(goBackToMain);
             }
         });
