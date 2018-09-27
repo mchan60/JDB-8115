@@ -90,6 +90,7 @@ public class MainPageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent goToViewEntryPage = new Intent(MainPageActivity.this, ViewEntryActivity.class);
                 goToViewEntryPage.putExtra("DIARY_ENTRY", entriesList.size() - 1);
+                goToViewEntryPage.putExtra("TIMESTAMP", entriesList.get(entriesList.size() - 1).getTimestamp());
                 startActivity(goToViewEntryPage);
             }
         });
@@ -110,6 +111,7 @@ public class MainPageActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent goToViewEntryPage = new Intent(MainPageActivity.this, ViewEntryActivity.class);
                     goToViewEntryPage.putExtra("DIARY_ENTRY", entriesList.size() - 2);
+                    goToViewEntryPage.putExtra("TIMESTAMP", entriesList.get(entriesList.size() - 2).getTimestamp());
                     startActivity(goToViewEntryPage);
                 }
             });
@@ -140,17 +142,17 @@ public class MainPageActivity extends AppCompatActivity {
             System.out.println("intent's extras are null for some reason");
         }
 
-        // Create a dummy list of 20 images
-        ArrayList<String> entryList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            entryList.add("");
-        }
-
-        ArrayAdapter<String> entryAdapter = new EntriesAdapter<String>(this,
-                R.id.entry_list_template, entryList);
-
-        ListView listView = (ListView) this.findViewById(R.id.entries_list);
-        listView.setAdapter(entryAdapter);
+//        // Create a dummy list of 20 images
+//        ArrayList<String> entryList = new ArrayList<>();
+//        for (int i = 0; i < 20; i++) {
+//            entryList.add("");
+//        }
+//
+//        ArrayAdapter<String> entryAdapter = new EntriesAdapter<String>(this,
+//                R.id.entry_list_template, entryList);
+//
+//        ListView listView = (ListView) this.findViewById(R.id.entries_list);
+//        listView.setAdapter(entryAdapter);
 
 
     }

@@ -56,6 +56,7 @@
             android:name=".Controller.ViewEntryActivity"
             android:label="@string/title_activity_view_entry"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Controller.EditEntryPageActivity"></activity>
     </application>
 
 </manifest>

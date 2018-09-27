@@ -29,14 +29,17 @@ public class ViewEntryActivity extends AppCompatActivity {
     TextView happy;
 
     int entriesIndex;
+    String entryTimestamp;
 
     EntryDB entryDB;
     List<DiaryEntry> entriesList;
     DiaryEntry entry;
 
     Button backToMainPage;
+
     Button editDiaryEntry;
     Button deleteDiaryEntry;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +56,12 @@ public class ViewEntryActivity extends AppCompatActivity {
         happy = (TextView) (findViewById(R.id.happy));
 
         backToMainPage = (Button) (findViewById(R.id.backToDiaryButton));
+
         editDiaryEntry = (Button) (findViewById(R.id.editButton));
         deleteDiaryEntry = (Button) (findViewById(R.id.deleteButton));
 
         entriesIndex = (int) getIntent().getExtras().get("DIARY_ENTRY");
+        entryTimestamp = (String)getIntent().getExtras().get("TIMESTAMP");
 
         entryDB = new EntryDB(this);
         entriesList = entryDB.getEntries();
@@ -97,6 +102,7 @@ public class ViewEntryActivity extends AppCompatActivity {
             }
         });
 
+
         editDiaryEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,7 +116,7 @@ public class ViewEntryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent goBackToMain = new Intent(ViewEntryActivity.this, MainPageActivity.class);
-                entryDB.deleteEntry(entry.getEntryID());
+                entryDB.deleteEntry(entry.getTimestamp());
                 startActivity(goBackToMain);
             }
         });
