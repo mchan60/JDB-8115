@@ -46,7 +46,7 @@ public class EditEntryPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_entry_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
 
         doneEntryButton = (Button)(findViewById(R.id.doneEntryButton));
         foodImage = (ImageView)(findViewById(R.id.foodImage));
@@ -62,7 +62,7 @@ public class EditEntryPageActivity extends AppCompatActivity {
 
         title.setText(entry.getTitle());
         description.setText(entry.getDescription());
-        calories.setText(entry.getCalories());
+        calories.setText(Integer.toString(entry.getCalories()));
         happy.setChecked(entry.getHappy() == 1);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
