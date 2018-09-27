@@ -18,13 +18,13 @@ public class EntryDB extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "entries.db";
 
     public static final String ENTRIES_TABLE_NAME = "entries_table";
-    public static final String COL_1 = "IDL";
-    public static final String COL_2 = "FILEURI";
-    public static final String COL_3 = "CALORIES";
-    public static final String COL_4 = "TIMESTAMP";
-    public static final String COL_5 = "TITLE";
-    public static final String COL_6 = "DESCRIPTION";
-    public static final String COL_7 = "HAPPY";
+    public static final String ENTRYID = "ENTRYID";
+    public static final String FILEURI = "FILEURI";
+    public static final String CALORIES = "CALORIES";
+    public static final String TIMESTAMP = "TIMESTAMP";
+    public static final String TITLE = "TITLE";
+    public static final String DESCRIPTION = "DESCRIPTION";
+    public static final String HAPPY = "HAPPY";
 
 
     public EntryDB(Context context) {
@@ -35,7 +35,7 @@ public class EntryDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + ENTRIES_TABLE_NAME + " (IDL INTEGER PRIMARY KEY AUTOINCREMENT, FILEURI, CALORIES, TIMESTAMP," +
-                " TITLE, DESCRIPTION, HAPPY)");
+                " TITLE, DESCRIPTION,d HAPPY)");
     }
 
     @Override
@@ -47,18 +47,29 @@ public class EntryDB extends SQLiteOpenHelper {
     public boolean addEntry(DiaryEntry entry) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_2, entry.getFileUri());
-        contentValues.put(COL_3, entry.getCalories());
-        contentValues.put(COL_4, entry.getTimestamp());
-        contentValues.put(COL_5, entry.getTitle());
-        contentValues.put(COL_6, entry.getDescription());
-        contentValues.put(COL_7, entry.getHappy());
+        contentValues.put(ENTRYID, entry.getEntryID());
+        contentValues.put(FILEURI, entry.getFileUri());
+        contentValues.put(CALORIES, entry.getCalories());
+        contentValues.put(TIMESTAMP, entry.getTimestamp());
+        contentValues.put(TITLE, entry.getTitle());
+        contentValues.put(DESCRIPTION, entry.getDescription());
+        contentValues.put(HAPPY, entry.getHappy());
 
         long result = db.insert(ENTRIES_TABLE_NAME, null, contentValues);
 
         return (result != -1);
     }
 
+    public boolean editEntry(DiaryEntry entry) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TITLE, entry.getTitle());
+        contentValues.put(DESCRIPTION, entry.getDescription());
+        contentValues.put(CALORIES, entry.getCalories());
+        contentValues.put(HAPPY, entry.getHappy());
+        long result = db.update(ENTRIES_TABLE_NAME, contentValues, "ENTRYID = ?", new String[]{entry.getEntryID()});
+        return (result != -1);
+    }
     public List<DiaryEntry> getEntries() {
         List<DiaryEntry> entries = new ArrayList<>();
 
@@ -100,6 +111,8 @@ public class EntryDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(ENTRIES_TABLE_NAME, "TIMESTAMP = ?", new String[]{timestamp});
     }
+
+
 }
 
 

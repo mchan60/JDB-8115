@@ -32,7 +32,7 @@ public class DiaryEntryTest {
         System.out.println(timestamp);
         String title = "";
         String description = "";
-        boolean happy = true;
+        int happy = 1;
         entry = new DiaryEntry(null, calories, Long.toString(timestamp), title, description, happy);
         entry.createEntry(entry);
         File testFile = new File("Entries/" + entry.getTimestamp() + ".json");
