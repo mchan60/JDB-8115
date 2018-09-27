@@ -26,6 +26,7 @@ public class EntryDB extends SQLiteOpenHelper {
     public static final String COL_6 = "DESCRIPTION";
     public static final String COL_7 = "HAPPY";
 
+
     public EntryDB(Context context) {
 
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -54,6 +55,7 @@ public class EntryDB extends SQLiteOpenHelper {
         contentValues.put(COL_7, entry.getHappy());
 
         long result = db.insert(ENTRIES_TABLE_NAME, null, contentValues);
+
         return (result != -1);
     }
 
@@ -78,9 +80,25 @@ public class EntryDB extends SQLiteOpenHelper {
         return entries;
     }
 
-    public Integer deleteEntry(String id) {
+//    public Integer deleteEntry(String id) {
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        return db.delete(ENTRIES_TABLE_NAME, "IDL = ?", new String[]{id});
+//    }
+
+    public DiaryEntry getEntry(String timestamp) {
+        ArrayList<DiaryEntry> entries = new ArrayList<DiaryEntry>();
+        entries = (ArrayList<DiaryEntry>) this.getEntries();
+        for (int i = 0; i < entries.size(); i++) {
+            if (entries.get(i).getTimestamp().equals(timestamp)) {
+                return entries.get(i);
+            }
+        }
+        return null;
+    }
+
+    public Integer deleteEntry(String timestamp) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(ENTRIES_TABLE_NAME, "IDL = ?", new String[]{id});
+        return db.delete(ENTRIES_TABLE_NAME, "TIMESTAMP = ?", new String[]{timestamp});
     }
 }
 
