@@ -16,6 +16,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
+        android:layout_gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,38 +24,47 @@
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="350dp"
+            android:layout_height="250dp"
+
             app:srcCompat="@mipmap/ic_launcher_round" />
 
         <TextView
             android:id="@+id/timestamp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="TextView" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+
             android:text="TextView" />
 
         <TextView
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+
             android:text="TextView" />
 
         <TextView
             android:id="@+id/calories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+
             android:text="TextView" />
 
         <TextView
             android:id="@+id/happy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="TextView" />
 
         <Button

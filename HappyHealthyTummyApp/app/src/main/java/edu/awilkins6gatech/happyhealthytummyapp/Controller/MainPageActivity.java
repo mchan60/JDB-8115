@@ -57,7 +57,7 @@ public class MainPageActivity extends AppCompatActivity implements AdapterView.O
     List<DiaryEntry> entriesList;
     ListView listView;
 
-    SparseArray<DiaryEntry> entriesMap;
+//    SparseArray<DiaryEntry> entriesMap;
 
     Button camera;
 
@@ -78,9 +78,8 @@ public class MainPageActivity extends AppCompatActivity implements AdapterView.O
         listView = (ListView) findViewById(R.id.diaryEntries);
         if (listView == null) System.out.println("list view is null in main FIX IT !!!!!!!");
 
-//        System.out.println(entriesList.get(0).getTimestamp());
 
-        //this small block of code is causing the app to crash and wont find the references for entries
+        //Adapter to populate the page with image list view
         if (entriesList != null) {
             CustomListViewAdapter adapter = new CustomListViewAdapter(this,
                     R.id.diaryEntries, entriesList);

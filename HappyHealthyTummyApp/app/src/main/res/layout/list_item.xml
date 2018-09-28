@@ -5,11 +5,12 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="87dp"
-        android:layout_height="80dp"
+        android:layout_width="350dp"
+        android:layout_height="250dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="57dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
         android:contentDescription="Food Picture"
         android:paddingLeft="10dp"
         android:paddingRight="10dp" />
@@ -18,7 +19,8 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/icon"
+        android:layout_below="@+id/icon"
+        android:layout_centerHorizontal="true"
         android:paddingBottom="10dp"
         android:textColor="#CC0033"
         android:textSize="16dp" />

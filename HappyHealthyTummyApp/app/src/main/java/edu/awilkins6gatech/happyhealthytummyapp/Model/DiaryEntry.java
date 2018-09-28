@@ -26,8 +26,7 @@ public class DiaryEntry implements Serializable {
     private String description;
     private int happy;
     private static final String ENTRY_DIRECTORY_NAME = "Entries";
-    //private ArrayList
-    //private Bitmap
+
 
     public DiaryEntry() {
         this.entryID = "0";
@@ -44,7 +43,6 @@ public class DiaryEntry implements Serializable {
         this.entryID = timestamp;
         this.fileUri = fileUri;
         this.calories = calories;
-        //timestamp = System.currentTimeMillis();
         this.timestamp = timestamp;
         this.title = title;
         this.description = description;
@@ -127,12 +125,6 @@ public class DiaryEntry implements Serializable {
                 System.out.println(file.getName());
         }
         return output;
-//        if (diaryEntries != null) {
-//            ArrayList<File> diaryEntriesList = new ArrayList<>(Arrays.asList(diaryEntries));
-//            return diaryEntriesList;
-//        } else {
-//            return null;
-//        }
     }
 
     public static DiaryEntry readEntry(String timestamp) {
@@ -185,41 +177,5 @@ public class DiaryEntry implements Serializable {
         return isEqual;
     }
 
-//    private DiaryEntry(Parcel in) {
-//        fileUri = in.readString();
-//        calories = in.readInt();
-//        timestamp = in.readString();
-//        title = in.readString();
-//        description = in.readString();
-//        happy = in.readInt();
-//    }
-//
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
-//
-//    /* *************************
-//       If you add new instance vars to Student, you will need to add them to the write
-//     */
-//    @Override
-//    public void writeToParcel(Parcel dest, int flags) {
-//        dest.writeString(fileUri);
-//        dest.writeInt(calories);
-//        dest.writeString(timestamp);
-//        dest.writeString(title);
-//        dest.writeString(description);
-//        dest.writeInt(happy);
-//    }
-//
-//    public static final Parcelable.Creator<DiaryEntry> CREATOR
-//            = new Parcelable.Creator<DiaryEntry>() {
-//        public DiaryEntry createFromParcel(Parcel in) {
-//            return new DiaryEntry(in);
-//        }
-//
-//        public DiaryEntry[] newArray(int size) {
-//            return new DiaryEntry[size];
-//        }
-//    };
+
 }

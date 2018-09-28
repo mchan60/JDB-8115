@@ -42,14 +42,10 @@ public class CustomListViewAdapter extends ArrayAdapter<DiaryEntry> {
         ViewHolder holder = new ViewHolder();
         View view = convertView;
         DiaryEntry rowItem = getItem(position);
-//        LayoutInflater mInflater = (LayoutInflater) context
-//                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         System.out.println("in custom adapter, view was null");
         if (view == null) {
             LayoutInflater vi = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            view = mInflater.inflate(R.layout.list_item, null);
             view = vi.inflate(R.layout.list_item, parent, false);
-            //holder = new ViewHolder();
             holder.txtTitle = (TextView) view.findViewById(R.id.title);
             holder.imageView = (ImageView) view.findViewById(R.id.icon); //REFERENCE TO THE IMAGE BEING DISPLAYED
         }
@@ -58,10 +54,7 @@ public class CustomListViewAdapter extends ArrayAdapter<DiaryEntry> {
         view.setTag(holder);
         System.out.println("in custom adapter, view was STILL null");
 
-//        } else {
-//            holder = (ViewHolder) convertView.getTag();
-//            System.out.println("in custom adapter, view was not null");
-//        }
+
         //title for the image (optional)
         if (rowItem != null) {
             if (rowItem.getTitle() != null) {
