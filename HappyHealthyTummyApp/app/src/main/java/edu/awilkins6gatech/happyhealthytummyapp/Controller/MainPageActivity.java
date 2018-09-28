@@ -154,6 +154,9 @@ public class MainPageActivity extends AppCompatActivity {
 //        ListView listView = (ListView) this.findViewById(R.id.entries_list);
 //        listView.setAdapter(entryAdapter);
 
+        //test push to see if tracked in insight
+        
+
 
     }
 

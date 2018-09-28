@@ -35,7 +35,7 @@ public class EntryDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + ENTRIES_TABLE_NAME + " (IDL INTEGER PRIMARY KEY AUTOINCREMENT, FILEURI, CALORIES, TIMESTAMP," +
-                " TITLE, DESCRIPTION,d HAPPY)");
+                " TITLE, DESCRIPTION, HAPPY)");
     }
 
     @Override
