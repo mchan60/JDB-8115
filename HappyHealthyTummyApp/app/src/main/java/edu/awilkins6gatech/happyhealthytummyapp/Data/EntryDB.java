@@ -67,7 +67,8 @@ public class EntryDB extends SQLiteOpenHelper {
         contentValues.put(DESCRIPTION, entry.getDescription());
         contentValues.put(CALORIES, entry.getCalories());
         contentValues.put(HAPPY, entry.getHappy());
-        long result = db.update(ENTRIES_TABLE_NAME, contentValues, "ENTRYID = ?", new String[]{entry.getEntryID()});
+        long result = db.update(ENTRIES_TABLE_NAME, contentValues, "TIMESTAMP" + "=?", new String[]{entry.getTimestamp()});
+        //long result = db.update(ENTRIES_TABLE_NAME, contentValues, "ENTRYID = ?", new String[]{entry.getEntryID()});
         return (result != -1);
     }
     public List<DiaryEntry> getEntries() {

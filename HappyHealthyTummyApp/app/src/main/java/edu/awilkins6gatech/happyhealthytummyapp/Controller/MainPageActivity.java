@@ -19,6 +19,7 @@ import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -58,6 +59,8 @@ public class MainPageActivity extends AppCompatActivity implements AdapterView.O
 
     SparseArray<DiaryEntry> entriesMap;
 
+    Button camera;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +71,7 @@ public class MainPageActivity extends AppCompatActivity implements AdapterView.O
         imageView = (ImageView) findViewById(R.id.imageView);
         imageView2 = (ImageView) findViewById(R.id.imageView2);
         imageView3 = (ImageView) findViewById(R.id.imageView3);
-
+        camera = (Button)findViewById(R.id.camera);
         entryDB = new EntryDB(this);
         entriesList = entryDB.getEntries();
 
@@ -95,6 +98,14 @@ public class MainPageActivity extends AppCompatActivity implements AdapterView.O
         );
 
         }
+
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goToLandingPage = new Intent(MainPageActivity.this, LandingActivity.class);
+                startActivity(goToLandingPage);
+            }
+        });
 
 
 

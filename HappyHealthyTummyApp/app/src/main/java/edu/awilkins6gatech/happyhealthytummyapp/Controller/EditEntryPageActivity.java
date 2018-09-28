@@ -40,6 +40,7 @@ public class EditEntryPageActivity extends AppCompatActivity {
 
     EntryDB entriesDB;
     DiaryEntry entry;
+    int entriesIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class EditEntryPageActivity extends AppCompatActivity {
 
         diaryEntries = new ArrayList<DiaryEntry>();
         entriesDB = new EntryDB(this);
+        //entriesIndex = (int) getIntent().getExtras().get("DIARY_ENTRY");
         entry = (DiaryEntry) getIntent().getExtras().get("DIARY ENTRY");
 
         title.setText(entry.getTitle());
@@ -73,7 +75,8 @@ public class EditEntryPageActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        selectedImage = Uri.parse( (String) getIntent().getExtras().get("File Uri"));
+        //selectedImage = Uri.parse( (String) getIntent().getExtras().get("File Uri"));
+        selectedImage = Uri.parse(entry.getFileUri());
         try {
             bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
         } catch (IOException e) {
@@ -94,6 +97,8 @@ public class EditEntryPageActivity extends AppCompatActivity {
                 editDiaryEntry();
                 Intent goToMainPage = new Intent(EditEntryPageActivity.this, ViewEntryActivity.class);
                 goToMainPage.putExtra("File Uri", (String) getIntent().getExtras().get("File Uri"));
+                goToMainPage.putExtra("DIARY_ENTRY", (int) getIntent().getExtras().get("DIARY_ENTRY_ID"));
+                goToMainPage.putExtra("TIMESTAMP",(String)getIntent().getExtras().get("TIMESTAMP"));
                 startActivity(goToMainPage);
             }
         });
@@ -113,16 +118,16 @@ public class EditEntryPageActivity extends AppCompatActivity {
             newHappy = 0;
         }
 
-        if (!newTitle.equals(entry.getTitle()) || !newDescription.equals(entry.getDescription())
-                || !(newCalories == entry.getCalories()) || !(newHappy == entry.getHappy())) {
+        //if (!newTitle.equals(entry.getTitle()) || !newDescription.equals(entry.getDescription())
+         //       || !(newCalories == entry.getCalories()) || !(newHappy == entry.getHappy())) {
             DiaryEntry updatedDiaryEntry = entry;
             entry.setTitle(newTitle);
             entry.setDescription(newDescription);
             entry.setCalories(newCalories);
             entry.setHappy(newHappy);
             diaryEntries.add(updatedDiaryEntry);
-            entriesDB.editEntry(updatedDiaryEntry);
-        }
+            entriesDB.editEntry(entry);
+       // }
     }
 
 }

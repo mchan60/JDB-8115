@@ -108,6 +108,7 @@ public class ViewEntryActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent goToEditEntry = new Intent(ViewEntryActivity.this, EditEntryPageActivity.class);
                 goToEditEntry.putExtra("DIARY ENTRY", entry);
+                goToEditEntry.putExtra("DIARY_ENTRY_ID", entriesIndex);
                 startActivity(goToEditEntry);
             }
         });
