@@ -34,7 +34,7 @@ public class EntryDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + ENTRIES_TABLE_NAME + " (IDL INTEGER PRIMARY KEY AUTOINCREMENT, FILEURI, CALORIES, TIMESTAMP," +
+        db.execSQL("CREATE TABLE " + ENTRIES_TABLE_NAME + " (IDL INTEGER PRIMARY KEY AUTOINCREMENT, ENTRYID, FILEURI, CALORIES, TIMESTAMP," +
                 " TITLE, DESCRIPTION, HAPPY)");
     }
 
@@ -90,11 +90,6 @@ public class EntryDB extends SQLiteOpenHelper {
         }
         return entries;
     }
-
-//    public Integer deleteEntry(String id) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        return db.delete(ENTRIES_TABLE_NAME, "IDL = ?", new String[]{id});
-//    }
 
     public DiaryEntry getEntry(String timestamp) {
         ArrayList<DiaryEntry> entries = new ArrayList<DiaryEntry>();

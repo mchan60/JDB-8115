@@ -1,26 +1,35 @@
 package edu.awilkins6gatech.happyhealthytummyapp.Adapters;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import edu.awilkins6gatech.happyhealthytummyapp.Model.DiaryEntry;
 import edu.awilkins6gatech.happyhealthytummyapp.R;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.graphics.Picture;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class CustomListViewAdapter extends ArrayAdapter<DiaryEntry> {
 
     Context context;
+    private List<DiaryEntry> items;
 
     public CustomListViewAdapter(Context context, int resourceId,
                                  List<DiaryEntry> items) {
         super(context, resourceId, items);
         this.context = context;
+        this.items = items;
     }
 
     /*private view holder class*/
@@ -30,25 +39,44 @@ public class CustomListViewAdapter extends ArrayAdapter<DiaryEntry> {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder = new ViewHolder();
+        View view = convertView;
         DiaryEntry rowItem = getItem(position);
+//        LayoutInflater mInflater = (LayoutInflater) context
+//                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        System.out.println("in custom adapter, view was null");
+        if (view == null) {
+            LayoutInflater vi = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            view = mInflater.inflate(R.layout.list_item, null);
+            view = vi.inflate(R.layout.list_item, parent, false);
+            //holder = new ViewHolder();
+            holder.txtTitle = (TextView) view.findViewById(R.id.title);
+            holder.imageView = (ImageView) view.findViewById(R.id.icon); //REFERENCE TO THE IMAGE BEING DISPLAYED
+        }
+        holder.txtTitle = (TextView) view.findViewById(R.id.title);
+        holder.imageView = (ImageView) view.findViewById(R.id.icon);
+        view.setTag(holder);
+        System.out.println("in custom adapter, view was STILL null");
 
-        LayoutInflater mInflater = (LayoutInflater) context
-                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.content_main_page, null);
-            holder = new ViewHolder();
-            holder.txtTitle = (TextView) convertView.findViewById(R.id.title);
-            holder.imageView = (ImageView) convertView.findViewById(R.id.imageView); //REFERENCE TO THE IMAGE BEING DISPLAYED
-            convertView.setTag(holder);
-        } else
-            holder = (ViewHolder) convertView.getTag();
-
+//        } else {
+//            holder = (ViewHolder) convertView.getTag();
+//            System.out.println("in custom adapter, view was not null");
+//        }
         //title for the image (optional)
-        holder.txtTitle.setText(rowItem.getTitle());
-        //this line is what sets the image to be displayed
-        holder.imageView.setImageResource(R.drawable.ic_launcher_foreground);
+        if (rowItem != null) {
+            if (rowItem.getTitle() != null) {
+                holder.txtTitle.setText(rowItem.getTitle());
+            } else {
+                holder.txtTitle.setText("no title");
+            }
+            //this line is what sets the image to be displayed
+            try {
+                holder.imageView.setImageBitmap(BitmapFactory.decodeStream(context.getContentResolver().openInputStream(Uri.parse(rowItem.getFileUri()))));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
 
-        return convertView;
+        return view;
     }
 }

@@ -72,15 +72,29 @@ public class MainPageActivity extends AppCompatActivity implements AdapterView.O
         entryDB = new EntryDB(this);
         entriesList = entryDB.getEntries();
 
-        listView = (ListView) findViewById(R.id.list);
+        listView = (ListView) findViewById(R.id.diaryEntries);
+        if (listView == null) System.out.println("list view is null in main FIX IT !!!!!!!");
 
 //        System.out.println(entriesList.get(0).getTimestamp());
 
         //this small block of code is causing the app to crash and wont find the references for entries
-        CustomListViewAdapter adapter = new CustomListViewAdapter(this,
-                R.layout.content_main_page, diaryEntries);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
+        if (entriesList != null) {
+            CustomListViewAdapter adapter = new CustomListViewAdapter(this,
+                    R.id.diaryEntries, entriesList);
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Intent goToViewEntryPage = new Intent(MainPageActivity.this, ViewEntryActivity.class);
+                    goToViewEntryPage.putExtra("DIARY_ENTRY", ((int) l));
+                    goToViewEntryPage.putExtra("TIMESTAMP", entriesList.get((int) l).getTimestamp());
+                    startActivity(goToViewEntryPage);
+                }
+
+            }
+        );
+
+        }
 
 
 
@@ -171,7 +185,7 @@ public class MainPageActivity extends AppCompatActivity implements AdapterView.O
 //        ListView listView = (ListView) this.findViewById(R.id.entries_list);
 //        listView.setAdapter(entryAdapter);
 
-        //test push to see if tracked in insight
+
         
 
 
