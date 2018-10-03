@@ -9,3 +9,6 @@
 - Then:
 
 ## Done Done Criteria
+- [ ] Merge dev branch onto feature branch
+- [ ] Successfully pass unit tests/debug
+- [ ] Submit pull request to be merged onto dev
