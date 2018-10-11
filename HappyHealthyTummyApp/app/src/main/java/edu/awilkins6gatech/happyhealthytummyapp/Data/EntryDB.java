@@ -103,9 +103,11 @@ public class EntryDB extends SQLiteOpenHelper {
         return null;
     }
 
-    public Integer deleteEntry(String timestamp) {
+    public boolean deleteEntry(String timestamp) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(ENTRIES_TABLE_NAME, "TIMESTAMP = ?", new String[]{timestamp});
+        long deleteTestInt = db.delete(ENTRIES_TABLE_NAME, "TIMESTAMP = ?", new String[]{timestamp});
+        boolean deletedSuccessfully = deleteTestInt != 0;
+        return deletedSuccessfully;
     }
 
 
