@@ -4,5 +4,5 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 
 public class BaseTestClass {
-    protected final Context appContext = InstrumentationRegistry.getTargetContext();
+    protected static final Context appContext = InstrumentationRegistry.getTargetContext();
 }

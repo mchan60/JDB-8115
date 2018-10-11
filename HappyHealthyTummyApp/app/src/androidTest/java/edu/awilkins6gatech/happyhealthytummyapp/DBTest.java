@@ -3,7 +3,7 @@ package edu.awilkins6gatech.happyhealthytummyapp;
 import edu.awilkins6gatech.happyhealthytummyapp.Data.EntryDB;
 import edu.awilkins6gatech.happyhealthytummyapp.Model.DiaryEntry;
 import junit.framework.Assert;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -14,33 +14,33 @@ import static java.lang.Math.random;
 
 @RunWith(JUnit4.class)
 public class DBTest extends BaseTestClass {
-    private EntryDB dataBase;
-    private DiaryEntry entry1;
-    private DiaryEntry entry2;
-    private DiaryEntry entry3;
+    private static EntryDB dataBase;
+    private static DiaryEntry entry1;
+    private static DiaryEntry entry2;
+    private static DiaryEntry entry3;
 
-    @Before
-    public void setupAndTestDBAdd() {
+    @BeforeClass
+    public static void setup() {
         dataBase = new EntryDB(appContext);
         entry1 = createRandomEntry();
         entry2 = createRandomEntry();
         entry3 = createRandomEntry();
-        boolean entry1Added = dataBase.addEntry(entry1);
-        Assert.assertTrue("Entry1 was not added successfully", entry1Added);
-        boolean entry2Added = dataBase.addEntry(entry2);
-        Assert.assertTrue("Entry2 was not added successfully", entry2Added);
-        boolean entry3Added = dataBase.addEntry(entry3);
-        Assert.assertTrue("Entry3 was not added successfully", entry3Added);
+        dataBase.addEntry(entry1);
+        dataBase.addEntry(entry2);
+        dataBase.addEntry(entry3);
+    }
+
+    @Test
+    public void testCreateOperation() {
+        DiaryEntry entry = createRandomEntry();
+        boolean entryAdded = dataBase.addEntry(entry);
+        Assert.assertTrue("Entry was not added successfully", entryAdded);
     }
 
     @Test
     public void testReadOperation() {
         DiaryEntry retrievedEntry1 = dataBase.getEntry(entry1.getTimestamp());
         Assert.assertEquals("The entry1 from the database is not correct", entry1, retrievedEntry1);
-        DiaryEntry retrievedEntry2 = dataBase.getEntry(entry2.getTimestamp());
-        Assert.assertEquals("The entry2 from the database is not correct", entry2, retrievedEntry2);
-        DiaryEntry retrievedEntry3 = dataBase.getEntry(entry3.getTimestamp());
-        Assert.assertEquals("The entry3 from the database is not correct", entry3, retrievedEntry3);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class DBTest extends BaseTestClass {
         Assert.assertTrue("The entry was not deleted successfully", deletedSuccessfully);
     }
 
-    private DiaryEntry createRandomEntry() {
+    private static DiaryEntry createRandomEntry() {
         int calories = (int) random();
         String stringUri = Double.toString(random());
         long timestamp = System.currentTimeMillis();
