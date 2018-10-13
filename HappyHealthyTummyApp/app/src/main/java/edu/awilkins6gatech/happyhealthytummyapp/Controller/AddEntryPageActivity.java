@@ -16,13 +16,22 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import edu.awilkins6gatech.happyhealthytummyapp.Data.EntryDB;
 import edu.awilkins6gatech.happyhealthytummyapp.Model.DiaryEntry;
 import edu.awilkins6gatech.happyhealthytummyapp.R;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.HttpURLConnection;
 
 public class AddEntryPageActivity extends AppCompatActivity {
 
@@ -39,6 +48,11 @@ public class AddEntryPageActivity extends AppCompatActivity {
     ArrayList<DiaryEntry> diaryEntries;
 
     EntryDB entriesDB;
+
+    private static final String API_KEY = "NBBlANdKXJcyLoYBmNc1zRBNbDaISebIhU38c153";
+
+    private static final String NUTRITION_DATA_REPO = "https://api.nal.usda.gov/ndb/V2/reports?type=f&format=json&api_key="+ API_KEY + "?ndbno=";
+    private static final String NUTRITION_DATA_SEARCH = "https://api.nal.usda.gov/ndb/search/?format=json&sort=n&max=25&offset=0&api_key=" + API_KEY + "&q=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +123,40 @@ public class AddEntryPageActivity extends AppCompatActivity {
                 (String) getIntent().getExtras().get("Time Stamp"), newTitle, newDescription, newHappy);
         diaryEntries.add(newDiaryEntry);
         entriesDB.addEntry(newDiaryEntry);
+    }
+
+    private JSONObject searchNutritionDB(String searchString) {
+        JSONObject searchResults = makeNutritionDBHttpRequest(NUTRITION_DATA_SEARCH + searchString);
+        return searchResults;
+    }
+
+    private JSONObject retrieveNutritionInfoFromDB(String ndbNumber) {
+        JSONObject nutritionInfo = makeNutritionDBHttpRequest(NUTRITION_DATA_REPO + ndbNumber);
+        return nutritionInfo;
+    }
+
+    private JSONObject makeNutritionDBHttpRequest(String request){
+        JSONObject response = null;
+        try {
+            URL url = new URL(request);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Content-Type", "application/json");
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            String content = "";
+            while ((inputLine = in.readLine()) != null) {
+                content = content + inputLine;
+            }
+            in.close();
+            con.disconnect();
+            response = new JSONObject(content);
+        }catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return response;
     }
 
 }
