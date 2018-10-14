@@ -12,19 +12,11 @@ import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -65,8 +57,6 @@ public class MainPageActivity extends AppCompatActivity implements AdapterView.O
     List<DiaryEntry> entriesList;
     ListView listView;
 
-    private DrawerLayout mDrawerLayout;
-
 //    SparseArray<DiaryEntry> entriesMap;
 
     Button camera;
@@ -87,7 +77,6 @@ public class MainPageActivity extends AppCompatActivity implements AdapterView.O
 
         listView = (ListView) findViewById(R.id.diaryEntries);
         if (listView == null) System.out.println("list view is null in main FIX IT !!!!!!!");
-
 
 
         //Adapter to populate the page with image list view
@@ -117,6 +106,58 @@ public class MainPageActivity extends AppCompatActivity implements AdapterView.O
             }
         });
 
+
+
+
+        //from before
+//        entriesMap = new SparseArray<DiaryEntry>();
+//        for (int i = 0; i < entriesList.size() - 1; i++) {
+//            entriesMap.append(i, entriesList.get(i));
+//        }
+//
+//        if (entriesList.size() > 0) {
+//            Uri selectedImage2 = Uri.parse(entriesList.get(entriesList.size() - 1).getFileUri());
+//            try {
+//                imageView2.setImageBitmap(BitmapFactory.decodeStream(this.getContentResolver().openInputStream(selectedImage2)));
+//                System.out.println("image 2 found");
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//                System.out.println("image 2 not found");
+//            }
+//        }
+//        //TODO: view entry page currently hardcoded on image 2 to go to size -1, map is made to try and get key and index without hardcoding
+//        imageView2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent goToViewEntryPage = new Intent(MainPageActivity.this, ViewEntryActivity.class);
+//                goToViewEntryPage.putExtra("DIARY_ENTRY", entriesList.size() - 1);
+//                goToViewEntryPage.putExtra("TIMESTAMP", entriesList.get(entriesList.size() - 1).getTimestamp());
+//                startActivity(goToViewEntryPage);
+//            }
+//        });
+//
+//        if (entriesList.size() > 1) {
+//            Uri selectedImage3 = Uri.parse(entriesList.get(entriesList.size() - 2).getFileUri());
+//
+//            try {
+//                imageView3.setImageBitmap(BitmapFactory.decodeStream(this.getContentResolver().openInputStream(selectedImage3)));
+//                System.out.println("image 3 found");
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//                System.out.println("image 3 not found");
+//            }
+//            //TODO:currently hardcoded to entries size - 2
+//            imageView3.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent goToViewEntryPage = new Intent(MainPageActivity.this, ViewEntryActivity.class);
+//                    goToViewEntryPage.putExtra("DIARY_ENTRY", entriesList.size() - 2);
+//                    goToViewEntryPage.putExtra("TIMESTAMP", entriesList.get(entriesList.size() - 2).getTimestamp());
+//                    startActivity(goToViewEntryPage);
+//                }
+//            });
+//        }
+//
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -127,6 +168,38 @@ public class MainPageActivity extends AppCompatActivity implements AdapterView.O
 //                startActivity(goToLandingPage);
 //            }
 //        });
+//        Bundle retrievalData = getIntent().getExtras();
+//        if (retrievalData != null) {
+//            String uriAsAString = (String) retrievalData.get("File Uri");
+//            Uri selectedImage = Uri.parse(uriAsAString);
+//            try {
+//                imageView.setImageBitmap(BitmapFactory.decodeStream(this.getContentResolver().openInputStream(selectedImage)));
+//                System.out.println("file was found");
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//                System.out.println("file wasn't found from main page");
+//            }
+//        } else {
+//            System.out.println("intent's extras are null for some reason");
+//        }
+
+//        // Create a dummy list of 20 images
+//        ArrayList<String> entryList = new ArrayList<>();
+//        for (int i = 0; i < 20; i++) {
+//            entryList.add("");
+//        }
+//
+//        ArrayAdapter<String> entryAdapter = new EntriesAdapter<String>(this,
+//                R.id.entry_list_template, entryList);
+//
+//        ListView listView = (ListView) this.findViewById(R.id.entries_list);
+//        listView.setAdapter(entryAdapter);
+
+
+        
+
+
+
     }
 
     @Override
@@ -137,38 +210,6 @@ public class MainPageActivity extends AppCompatActivity implements AdapterView.O
         toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
         toast.show();
     }
-
-    //menu functionality/////////////////////////////////////////////
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main_page, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.notifications:
-                Intent gotToNotifications = new Intent(MainPageActivity.this, NotificationPageActivity.class);
-                startActivity(gotToNotifications);
-                return true;
-            case R.id.recipeSearch:
-                Intent gotToRecipeSearch = new Intent(MainPageActivity.this, RecipeSearchActivity.class);
-                startActivity(gotToRecipeSearch);
-                return true;
-            case R.id.dietSearch:
-                Intent gotToDietSearch = new Intent(MainPageActivity.this, DietSearchActivity.class);
-                startActivity(gotToDietSearch);
-                return true;
-            case R.id.feedback:
-                Intent gotToFeedback = new Intent(MainPageActivity.this, FeedbackActivity.class);
-                startActivity(gotToFeedback);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    //////////////////////////////////////////////////
 
     public static <T, E> T getKeyFromValue(E value, Map<T, E> map) {
         for (Map.Entry<T, E> entry: map.entrySet()) {

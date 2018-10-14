@@ -4,8 +4,4 @@
     <string name="title_activity_main_page">MainPageActivity</string>
     <string name="title_activity_add_entry_page">AddEntryPage</string>
     <string name="title_activity_view_entry">ViewEntryActivity</string>
-    <string name="title_activity_notification_page">NotificationPageActivity</string>
-    <string name="title_activity_recipe_search">RecipeSearchActivity</string>
-    <string name="title_activity_diet_search">DietSearchActivity</string>
-    <string name="title_activity_feedback">FeedbackActivity</string>
 </resources>
