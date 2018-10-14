@@ -125,17 +125,17 @@ public class AddEntryPageActivity extends AppCompatActivity {
         entriesDB.addEntry(newDiaryEntry);
     }
 
-    private JSONObject searchNutritionDB(String searchString) {
+    public static JSONObject searchNutritionDB(String searchString) {
         JSONObject searchResults = makeNutritionDBHttpRequest(NUTRITION_DATA_SEARCH + searchString);
         return searchResults;
     }
 
-    private JSONObject retrieveNutritionInfoFromDB(String ndbNumber) {
+    public static JSONObject retrieveNutritionInfoFromDB(String ndbNumber) {
         JSONObject nutritionInfo = makeNutritionDBHttpRequest(NUTRITION_DATA_REPO + ndbNumber);
         return nutritionInfo;
     }
 
-    private JSONObject makeNutritionDBHttpRequest(String request){
+    private static JSONObject makeNutritionDBHttpRequest(String request){
         JSONObject response = null;
         try {
             URL url = new URL(request);
