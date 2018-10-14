@@ -3,8 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="edu.awilkins6gatech.happyhealthytummyapp.Controller.LandingPageActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/notifications"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="Notifications"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/dietSearch"
+        android:orderInCategory="100"
+        android:title="Diet Search"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/recipeSearch"
+        android:orderInCategory="100"
+        android:title="Recipe Search"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/feedback"
+        android:orderInCategory="100"
+        android:title="Feedback"
+        app:showAsAction="never" />
+    <!--<item-->
+        <!--android:id="@+id/settings"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/action_settings"-->
+        <!--app:showAsAction="never" />-->
 </menu>

@@ -16,6 +16,9 @@
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
 
+    <!-- To access Google+ APIs: -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -35,7 +38,7 @@
         </activity>
         <activity
             android:name=".Controller.MainPageActivity"
-            android:label="@string/title_activity_main_page"
+            android:label="Happy Healthy Tummy"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
@@ -55,8 +58,28 @@
         <activity
             android:name=".Controller.ViewEntryActivity"
             android:label="@string/title_activity_view_entry"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".Controller.EditEntryPageActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Controller.EditEntryPageActivity" />
+        <activity
+            android:name=".Controller.NotificationPageActivity"
+            android:label="Notifications"
+            android:parentActivityName=".Controller.MainPageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Controller.RecipeSearchActivity"
+            android:label="Recipe Search"
+            android:parentActivityName=".Controller.MainPageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Controller.DietSearchActivity"
+            android:label="Diet Search"
+            android:parentActivityName=".Controller.MainPageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Controller.FeedbackActivity"
+            android:label="Feedback"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".Controller.MainPageActivity"></activity>
     </application>
 
 </manifest>
