@@ -21,4 +21,14 @@ public class AddEntryPageActivityTest {
             System.out.println("An exception occurred");
         }
     }
+
+    @Test
+    public void retrieveNutritionInfoFromDBTest() {
+        JSONObject nutritionInfo = AddEntryPageActivity.retrieveNutritionInfoFromDB(NDB_NUMBER);
+        try {
+            //JSONArray list = nutritionInfo.getJSONObject("list").getJSONArray("item");
+        } catch (Exception ex){
+            System.out.println("An exception occurred");
+        }
+    }
 }
