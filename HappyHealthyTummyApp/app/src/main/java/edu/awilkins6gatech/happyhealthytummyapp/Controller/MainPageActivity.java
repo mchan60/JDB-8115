@@ -3,9 +3,14 @@ import android.content.Intent;
 
 import android.os.Bundle;
 
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -23,6 +28,10 @@ public class MainPageActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private android.support.design.widget.TabLayout tabLayout;
     private android.support.v4.view.ViewPager viewPager;
+
+
+    private DrawerLayout mDrawerLayout;
+
 
 
     Button camera;
@@ -52,12 +61,14 @@ public class MainPageActivity extends AppCompatActivity {
 
 
 //        camera.setOnClickListener(new View.OnClickListener() {
+
 //            @Override
 //            public void onClick(View view) {
 //                Intent goToLandingPage = new Intent(MainPageActivity.this, LandingActivity.class);
 //                startActivity(goToLandingPage);
 //            }
 //        });
+
 
     }
 
@@ -66,6 +77,38 @@ public class MainPageActivity extends AppCompatActivity {
         overridePendingTransition( 0, 0);
         startActivity(getIntent());
         overridePendingTransition( 0, 0);
+    }
+
+
+    //menu functionality/////////////////////////////////////////////
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main_page, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.notifications:
+                Intent gotToNotifications = new Intent(MainPageActivity.this, NotificationPageActivity.class);
+                startActivity(gotToNotifications);
+                return true;
+            case R.id.recipeSearch:
+                Intent gotToRecipeSearch = new Intent(MainPageActivity.this, RecipeSearchActivity.class);
+                startActivity(gotToRecipeSearch);
+                return true;
+            case R.id.dietSearch:
+                Intent gotToDietSearch = new Intent(MainPageActivity.this, DietSearchActivity.class);
+                startActivity(gotToDietSearch);
+                return true;
+            case R.id.feedback:
+                Intent gotToFeedback = new Intent(MainPageActivity.this, FeedbackActivity.class);
+                startActivity(gotToFeedback);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
