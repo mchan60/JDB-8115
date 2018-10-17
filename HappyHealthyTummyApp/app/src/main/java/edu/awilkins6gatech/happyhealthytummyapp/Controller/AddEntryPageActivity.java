@@ -28,10 +28,13 @@ import java.util.ArrayList;
 import edu.awilkins6gatech.happyhealthytummyapp.Data.EntryDB;
 import edu.awilkins6gatech.happyhealthytummyapp.Model.DiaryEntry;
 import edu.awilkins6gatech.happyhealthytummyapp.R;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
+import java.util.Dictionary;
+import java.util.HashMap;
 
 public class AddEntryPageActivity extends AppCompatActivity {
 
@@ -52,7 +55,7 @@ public class AddEntryPageActivity extends AppCompatActivity {
     private static final String API_KEY = "NBBlANdKXJcyLoYBmNc1zRBNbDaISebIhU38c153";
 
     private static final String NUTRITION_DATA_REPO = "https://api.nal.usda.gov/ndb/V2/reports?type=f&format=json&api_key="+ API_KEY + "&ndbno=";
-    private static final String NUTRITION_DATA_SEARCH = "https://api.nal.usda.gov/ndb/search/?format=json&sort=n&max=25&offset=0&api_key=" + API_KEY + "&q=";
+    private static final String NUTRITION_DATA_SEARCH = "https://api.nal.usda.gov/ndb/search/?format=json&sort=n&max=5&offset=0&api_key=" + API_KEY + "&q=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,9 +128,22 @@ public class AddEntryPageActivity extends AppCompatActivity {
         entriesDB.addEntry(newDiaryEntry);
     }
 
-    public static JSONObject searchNutritionDB(String searchString) {
-        JSONObject searchResults = makeNutritionDBHttpRequest(NUTRITION_DATA_SEARCH + searchString);
-        return searchResults;
+    public static HashMap<String, String> searchNutritionDB(String searchString) {
+        HashMap<String, String> nameNdbnoPairs = new HashMap<>();
+        try {
+            JSONObject searchResultsJson = makeNutritionDBHttpRequest(NUTRITION_DATA_SEARCH + searchString);
+            JSONArray searchResultsList = searchResultsJson.getJSONObject("list").getJSONArray("item");
+            int arrayLength = searchResultsList.length();
+            for (int i = 0; i < arrayLength; i++) {
+                JSONObject item = searchResultsList.getJSONObject(i);
+                String name = item.getString("name");
+                String ndbno = item.getString("ndbno");
+                nameNdbnoPairs.put(name, ndbno);
+            }
+        } catch (Exception ex) {
+            //Handle exception
+        }
+        return nameNdbnoPairs;
     }
 
     public static JSONObject retrieveNutritionInfoFromDB(String ndbNumber) {

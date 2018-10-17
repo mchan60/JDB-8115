@@ -1,11 +1,13 @@
 package edu.awilkins6gatech.happyhealthytummyapp;
 
 import edu.awilkins6gatech.happyhealthytummyapp.Controller.AddEntryPageActivity;
-import org.json.JSONArray;
+import junit.framework.Assert;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import java.util.HashMap;
 
 @RunWith(JUnit4.class)
 public class AddEntryPageActivityTest {
@@ -14,11 +16,12 @@ public class AddEntryPageActivityTest {
 
     @Test
     public void searchNutritionDBTest() {
-        JSONObject listOfItems = AddEntryPageActivity.searchNutritionDB(NDB_NAME);
+        HashMap<String, String> listOfItems = AddEntryPageActivity.searchNutritionDB(NDB_NAME);
         try {
-            JSONArray list = listOfItems.getJSONObject("list").getJSONArray("item");
+            boolean listOfResultsIsNotEmpty = !listOfItems.isEmpty();
+            Assert.assertTrue("The known value \"Cheese\" returned no results.", listOfResultsIsNotEmpty);
         } catch (Exception ex){
-            System.out.println("An exception occurred");
+            Assert.fail("An exception occurred.\n" + ex.getMessage());
         }
     }
 
@@ -26,9 +29,11 @@ public class AddEntryPageActivityTest {
     public void retrieveNutritionInfoFromDBTest() {
         JSONObject nutritionInfo = AddEntryPageActivity.retrieveNutritionInfoFromDB(NDB_NUMBER);
         try {
-            //JSONArray list = nutritionInfo.getJSONObject("list").getJSONArray("item");
+            String retrievedNdbNumber = nutritionInfo.getJSONArray("foods").getJSONObject(0)
+                    .getJSONObject("food").getJSONObject("desc").getString("ndbno");
+            Assert.assertEquals("The wrong entry was pulled from the database", NDB_NUMBER, retrievedNdbNumber);
         } catch (Exception ex){
-            System.out.println("An exception occurred");
+            Assert.fail("An exception occurred.\n" + ex.getMessage());
         }
     }
 }
