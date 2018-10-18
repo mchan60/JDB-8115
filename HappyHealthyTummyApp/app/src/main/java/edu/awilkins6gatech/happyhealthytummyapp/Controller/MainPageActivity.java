@@ -1,73 +1,38 @@
 package edu.awilkins6gatech.happyhealthytummyapp.Controller;
-
-import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.net.Uri;
+
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.SparseArray;
-import android.view.Gravity;
+
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.ArrayAdapter;
+
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.awilkins6gatech.happyhealthytummyapp.Adapters.ViewPagerAdapter;
+import edu.awilkins6gatech.happyhealthytummyapp.Adapters.DailyFragment;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-
-import edu.awilkins6gatech.happyhealthytummyapp.Adapters.CustomListViewAdapter;
-import edu.awilkins6gatech.happyhealthytummyapp.Data.EntryDB;
-import edu.awilkins6gatech.happyhealthytummyapp.Model.DiaryEntry;
 import edu.awilkins6gatech.happyhealthytummyapp.R;
 
-public class MainPageActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MainPageActivity extends AppCompatActivity {
 
     private static final int RESULT_LOAD_IMAGE = 5;
-    private ImageView imageView;
-    private ImageView imageView2;
-    private ImageView imageView3;
-    List<DiaryEntry> diaryEntries;
-    List<File> diaryJsonFiles;
 
-    EntryDB entryDB;
-    List<DiaryEntry> entriesList;
-    ListView listView;
+    private Toolbar toolbar;
+    private android.support.design.widget.TabLayout tabLayout;
+    private android.support.v4.view.ViewPager viewPager;
+
 
     private DrawerLayout mDrawerLayout;
 
-//    SparseArray<DiaryEntry> entriesMap;
+
 
     Button camera;
 
@@ -75,68 +40,45 @@ public class MainPageActivity extends AppCompatActivity implements AdapterView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        imageView = (ImageView) findViewById(R.id.imageView);
-        imageView2 = (ImageView) findViewById(R.id.imageView2);
-        imageView3 = (ImageView) findViewById(R.id.imageView3);
         camera = (Button)findViewById(R.id.camera);
-        entryDB = new EntryDB(this);
-        entriesList = entryDB.getEntries();
 
-        listView = (ListView) findViewById(R.id.diaryEntries);
-        if (listView == null) System.out.println("list view is null in main FIX IT !!!!!!!");
+        //setting up
+        tabLayout = (android.support.design.widget.TabLayout) findViewById(R.id.tabLayout);
+        viewPager = (android.support.v4.view.ViewPager) findViewById(R.id.viewPager);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        //adds the tab fragments
+        adapter.addFragments(new DailyFragment(), "Daily");
+        adapter.addFragments(new DailyFragment(), "Weekly");
+
+        viewPager.setAdapter(adapter);
+
+        tabLayout.setupWithViewPager(viewPager);
 
 
 
-        //Adapter to populate the page with image list view
-        if (entriesList != null) {
-            CustomListViewAdapter adapter = new CustomListViewAdapter(this,
-                    R.id.diaryEntries, entriesList);
-            listView.setAdapter(adapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Intent goToViewEntryPage = new Intent(MainPageActivity.this, ViewEntryActivity.class);
-                    goToViewEntryPage.putExtra("DIARY_ENTRY", ((int) l));
-                    goToViewEntryPage.putExtra("TIMESTAMP", entriesList.get((int) l).getTimestamp());
-                    startActivity(goToViewEntryPage);
-                }
+//        camera.setOnClickListener(new View.OnClickListener() {
 
-            }
-        );
-
-        }
-
-        camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent goToLandingPage = new Intent(MainPageActivity.this, LandingActivity.class);
-                startActivity(goToLandingPage);
-            }
-        });
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-////                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-////                        .setAction("Action", null).show();
 //                Intent goToLandingPage = new Intent(MainPageActivity.this, LandingActivity.class);
 //                startActivity(goToLandingPage);
 //            }
 //        });
+
+
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast toast = Toast.makeText(getApplicationContext(),
-                "Item " + (position + 1) + ": " + diaryEntries.get(position),
-                Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
-        toast.show();
+    public void refreshNow (){
+        finish();
+        overridePendingTransition( 0, 0);
+        startActivity(getIntent());
+        overridePendingTransition( 0, 0);
     }
+
 
     //menu functionality/////////////////////////////////////////////
     @Override
@@ -172,16 +114,7 @@ public class MainPageActivity extends AppCompatActivity implements AdapterView.O
         }
         return super.onOptionsItemSelected(item);
     }
-    //////////////////////////////////////////////////
 
-    public static <T, E> T getKeyFromValue(E value, Map<T, E> map) {
-        for (Map.Entry<T, E> entry: map.entrySet()) {
-            if (entry.getValue().equals(value)) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
 }
 
 
