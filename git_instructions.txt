@@ -21,6 +21,8 @@ Procedures for merging:
 3. git pull
 4. checkout branch you are working on
 5. git merge dev
+6. add, commit, push any changes
+7. submit a pull request
 
 ** IMPORTANT **
 RESOLVING MERGE CONFLICTS
