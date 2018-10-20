@@ -11,10 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Switch;
+import android.widget.*;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -25,6 +22,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import edu.awilkins6gatech.happyhealthytummyapp.Adapters.AutoCompleteAdapter;
 import edu.awilkins6gatech.happyhealthytummyapp.Data.EntryDB;
 import edu.awilkins6gatech.happyhealthytummyapp.Model.DiaryEntry;
 import edu.awilkins6gatech.happyhealthytummyapp.R;
@@ -33,8 +31,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
-import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.List;
 
 public class AddEntryPageActivity extends AppCompatActivity {
 
@@ -43,7 +41,7 @@ public class AddEntryPageActivity extends AppCompatActivity {
     Uri selectedImage;
     Bitmap bitmap;
 
-    EditText title;
+    AutoCompleteTextView title;
     EditText description;
     EditText calories;
     Switch happy;
@@ -54,9 +52,11 @@ public class AddEntryPageActivity extends AppCompatActivity {
 
     private static final String API_KEY = "NBBlANdKXJcyLoYBmNc1zRBNbDaISebIhU38c153";
 
-    private static final String NUTRITION_DATA_REPO = "https://api.nal.usda.gov/ndb/V2/reports?type=f&format=json&api_key="+ API_KEY + "&ndbno=";
+    private static final String NUTRITION_DATA_REPO = "https://api.nal.usda.gov/ndb/V2/reports?type=b&format=json&api_key="+ API_KEY + "&ndbno=";
     private static final String NUTRITION_DATA_SEARCH = "https://api.nal.usda.gov/ndb/search/?format=json&sort=n&max=5&offset=0&api_key=" + API_KEY + "&q=";
 
+    private AutoCompleteAdapter autoCompleteAdapter;
+    private TextView selectedText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,10 +67,44 @@ public class AddEntryPageActivity extends AppCompatActivity {
         postEntryButton = (Button)(findViewById(R.id.postEntryButton));
         foodImage = (ImageView)(findViewById(R.id.foodImage));
 
-        title = (EditText)(findViewById(R.id.title));
+        title = (AutoCompleteTextView)(findViewById(R.id.title));
+        autoCompleteAdapter = new AutoCompleteAdapter(this,
+                android.R.layout.simple_dropdown_item_1line);
+        final HashMap<String, String> namesAndIds = searchNutritionDB(title.toString());
+        List<String> data = (List<String>) namesAndIds.keySet();
+        autoCompleteAdapter.setData(data);
+        title.setThreshold(1);
+        title.setAdapter(autoCompleteAdapter);
         description = (EditText)(findViewById(R.id.description));
         calories = (EditText)(findViewById(R.id.calories));
         happy = (Switch)(findViewById(R.id.switch1));
+
+        title.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
+                        title.setText(autoCompleteAdapter.getObject(position));
+                        String ndbno = namesAndIds.get(autoCompleteAdapter.getObject(position));
+                        JSONObject nutritionEntry = retrieveNutritionInfoFromDB(ndbno);
+                        String caloriesFromDb = null;
+                        try {
+                            JSONArray nutrientArray = nutritionEntry.getJSONArray("foods").getJSONObject(0).getJSONObject("food").getJSONArray("nutrients");
+                            int index = 0;
+                            while (caloriesFromDb == null && index < nutrientArray.length()) {
+                                JSONObject nutrient = nutrientArray.getJSONObject(index);
+                                String name = nutrient.getString("name");
+                                if (name.equals("Energy")) {
+                                    caloriesFromDb = nutrient.getString("value");
+                                }
+                                index++;
+                            }
+                        } catch (JSONException ex) {
+                            //Handle Exception
+                        }
+                        calories.setText(caloriesFromDb);
+                    }
+                });
 
         diaryEntries = new ArrayList<DiaryEntry>();
         entriesDB = new EntryDB(this);
