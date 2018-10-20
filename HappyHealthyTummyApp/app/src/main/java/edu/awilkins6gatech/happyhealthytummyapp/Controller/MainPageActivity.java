@@ -107,6 +107,10 @@ public class MainPageActivity extends AppCompatActivity {
                 Intent gotToFeedback = new Intent(MainPageActivity.this, FeedbackActivity.class);
                 startActivity(gotToFeedback);
                 return true;
+            case R.id.monthly:
+                Intent goToMonthly = new Intent(MainPageActivity.this, CalendarActivity.class);
+                startActivity(goToMonthly);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
