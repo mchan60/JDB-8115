@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.List;
 
 import edu.awilkins6gatech.happyhealthytummyapp.Controller.MainPageActivity;
@@ -51,9 +52,10 @@ public class DailyFragment extends Fragment implements AdapterView.OnItemClickLi
 
         entryDB = new EntryDB(getActivity());
         entriesList = entryDB.getEntries();
+        Collections.reverse(entriesList);
 
         listView = (ListView) view.findViewById(R.id.diaryEntries);
-        if (listView == null) System.out.println("list view is null in main FIX IT !!!!!!!");
+        if (listView == null) System.out.println("list view is null in min FIX IT !!!!!!!");
 
         //Adapter to populate the page with image list view
         if (entriesList != null) {
