@@ -76,13 +76,17 @@
         <activity
             android:name=".Controller.FeedbackActivity"
             android:label="Feedback"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".Controller.MainPageActivity"></activity>
+            android:parentActivityName=".Controller.MainPageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Controller.CalendarActivity"
             android:label="Monthly"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".Controller.MainPageActivity"></activity>
+            android:parentActivityName=".Controller.MainPageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Controller.AddNotificationPageActivity"
+            android:label="@string/title_activity_add_notification_page"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
