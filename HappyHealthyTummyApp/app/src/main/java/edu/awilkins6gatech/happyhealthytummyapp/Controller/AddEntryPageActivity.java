@@ -11,10 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Switch;
+import android.widget.*;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -43,7 +40,7 @@ public class AddEntryPageActivity extends AppCompatActivity {
     Uri selectedImage;
     Bitmap bitmap;
 
-    EditText title;
+    AutoCompleteTextView title;
     EditText description;
     EditText calories;
     Switch happy;
@@ -57,6 +54,8 @@ public class AddEntryPageActivity extends AppCompatActivity {
     private static final String NUTRITION_DATA_REPO = "https://api.nal.usda.gov/ndb/V2/reports?type=f&format=json&api_key="+ API_KEY + "&ndbno=";
     private static final String NUTRITION_DATA_SEARCH = "https://api.nal.usda.gov/ndb/search/?format=json&sort=n&max=5&offset=0&api_key=" + API_KEY + "&q=";
 
+    private static final String[] AUTOCOMPLETE_ENTRIES = {"Apple", "Pear", "Cheese"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +66,12 @@ public class AddEntryPageActivity extends AppCompatActivity {
         postEntryButton = (Button)(findViewById(R.id.postEntryButton));
         foodImage = (ImageView)(findViewById(R.id.foodImage));
 
-        title = (EditText)(findViewById(R.id.title));
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, AUTOCOMPLETE_ENTRIES);
+
+        title = findViewById(R.id.title);
+        title.setThreshold(1);
+        title.setAdapter(adapter);
+
         description = (EditText)(findViewById(R.id.description));
         calories = (EditText)(findViewById(R.id.calories));
         happy = (Switch)(findViewById(R.id.switch1));
