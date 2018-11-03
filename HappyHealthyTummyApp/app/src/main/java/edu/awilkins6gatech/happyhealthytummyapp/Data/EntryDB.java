@@ -14,10 +14,10 @@ import edu.awilkins6gatech.happyhealthytummyapp.Model.DiaryEntry;
 
 public class EntryDB extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "entries.db";
 
-    public static final String ENTRIES_TABLE_NAME = "entries_table";
+    public static final String ENTRIES_TABLE_NAME = "table";
     public static final String ENTRYID = "ENTRYID";
     public static final String FILEURI = "FILEURI";
     public static final String CALORIES = "CALORIES";
@@ -34,26 +34,36 @@ public class EntryDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + ENTRIES_TABLE_NAME + " (IDL INTEGER PRIMARY KEY AUTOINCREMENT, FILEURI, CALORIES, TIMESTAMP," +
-                " TITLE, DESCRIPTION,d HAPPY)");
+
+        db.execSQL("CREATE TABLE " + ENTRIES_TABLE_NAME + "(" + ENTRYID + "  INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + FILEURI+ " TEXT, " + CALORIES + " TEXT , " + TIMESTAMP +  " TEXT, " + TITLE + " TEXT , " + DESCRIPTION + " TEXT , " + HAPPY +  " TEXT);");
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + ENTRIES_TABLE_NAME);
+        if (newVersion > oldVersion) {
+            db.execSQL("ALTER TABLE " + ENTRIES_TABLE_NAME + " ADD COLUMN "+ ENTRYID + " INTEGER DEFAULT 0");
+        }
         onCreate(db);
     }
 
     public boolean addEntry(DiaryEntry entry) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(ENTRYID, entry.getEntryID());
+        contentValues.put(ENTRYID, "10");
         contentValues.put(FILEURI, entry.getFileUri());
         contentValues.put(CALORIES, entry.getCalories());
         contentValues.put(TIMESTAMP, entry.getTimestamp());
         contentValues.put(TITLE, entry.getTitle());
         contentValues.put(DESCRIPTION, entry.getDescription());
         contentValues.put(HAPPY, entry.getHappy());
+
+//        Cursor res = db.rawQuery("SELECT * FROM " + ENTRIES_TABLE_NAME, null);
+//
+//        System.out.print(res.getInt(res.getColumnIndex("HAPPY")));
+
 
         long result = db.insert(ENTRIES_TABLE_NAME, null, contentValues);
 
@@ -109,6 +119,8 @@ public class EntryDB extends SQLiteOpenHelper {
 
     public Integer deleteEntry(String timestamp) {
         SQLiteDatabase db = this.getWritableDatabase();
+//        int returnedValue = db.delete(ENTRIES_TABLE_NAME, "TIMESTAMP = ?", new String[]{timestamp})
+//        System.out.print(returnedValue);
         return db.delete(ENTRIES_TABLE_NAME, "TIMESTAMP = ?", new String[]{timestamp});
     }
 

@@ -57,6 +57,8 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
     private static final String IMAGE_DIRECTORY_NAME = "Happy Healthy Tummy";
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

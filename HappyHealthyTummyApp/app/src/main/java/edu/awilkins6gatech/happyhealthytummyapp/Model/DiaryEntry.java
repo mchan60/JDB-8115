@@ -57,8 +57,8 @@ public class DiaryEntry implements Serializable {
         this.calories = calories;
     }
 
-    public int getCalories() {
-        return calories;
+    public String getCalories() {
+        return String.valueOf(calories);
     }
 
     public void setFileUri(String fileUri) {
