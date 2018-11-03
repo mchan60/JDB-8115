@@ -31,11 +31,16 @@
 
         <Button
             android:id="@+id/camera"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_alignBottom="@+id/diaryEntries"
             android:layout_alignParentEnd="true"
-            android:text="Camera" />
+            android:layout_marginEnd="148dp"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/comfortaa_light"
+            android:text="Camera"
+            android:textColorLink="@color/colorPrimary" />
     </RelativeLayout>
 
 </android.support.v4.widget.SwipeRefreshLayout>

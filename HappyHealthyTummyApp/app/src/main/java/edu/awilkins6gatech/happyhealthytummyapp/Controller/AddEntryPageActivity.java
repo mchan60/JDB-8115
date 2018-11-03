@@ -58,14 +58,14 @@ public class AddEntryPageActivity extends AppCompatActivity {
         diaryEntries = new ArrayList<DiaryEntry>();
         entriesDB = new EntryDB(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
         selectedImage = Uri.parse( (String) getIntent().getExtras().get("File Uri"));
         try {
             bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
