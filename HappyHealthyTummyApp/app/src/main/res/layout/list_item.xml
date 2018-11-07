@@ -24,4 +24,13 @@
         android:paddingBottom="10dp"
         android:textColor="#CC0033"
         android:textSize="16dp" />
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="10dp"
+        android:textColor="#CC0033"
+        android:textSize="16dp" />
 </RelativeLayout>

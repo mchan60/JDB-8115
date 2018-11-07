@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.List;
 
 import edu.awilkins6gatech.happyhealthytummyapp.Controller.MainPageActivity;
@@ -51,9 +52,10 @@ public class DailyFragment extends Fragment implements AdapterView.OnItemClickLi
 
         entryDB = new EntryDB(getActivity());
         entriesList = entryDB.getEntries();
+        Collections.reverse(entriesList);
 
         listView = (ListView) view.findViewById(R.id.diaryEntries);
-        if (listView == null) System.out.println("list view is null in main FIX IT !!!!!!!");
+        if (listView == null) System.out.println("list view is null in min FIX IT !!!!!!!");
 
         //Adapter to populate the page with image list view
         if (entriesList != null) {
@@ -64,8 +66,10 @@ public class DailyFragment extends Fragment implements AdapterView.OnItemClickLi
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Intent goToViewEntryPage = new Intent(getActivity(), ViewEntryActivity.class);
-                    goToViewEntryPage.putExtra("DIARY_ENTRY", ((int) l));
-                    goToViewEntryPage.putExtra("TIMESTAMP", entriesList.get((int) l).getTimestamp());
+                    int index = entriesList.size() - 1 - (int) l;
+                    goToViewEntryPage.putExtra("DIARY_ENTRY", ((int) index));
+
+                    goToViewEntryPage.putExtra("TIMESTAMP", entriesList.get(index).getTimestamp());
                     startActivity(goToViewEntryPage);
                 }
 
@@ -80,7 +84,7 @@ public class DailyFragment extends Fragment implements AdapterView.OnItemClickLi
                     @Override
                     public void onRefresh() {
                         ((MainPageActivity) getActivity()).refreshNow();
-                        Toast.makeText(getContext(), "Refresh Layout working", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Done!", Toast.LENGTH_LONG).show();
                     }
                 }
         );
