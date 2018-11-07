@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import edu.awilkins6gatech.happyhealthytummyapp.Adapters.ViewPagerAdapter;
 import edu.awilkins6gatech.happyhealthytummyapp.Adapters.DailyFragment;
 
+import edu.awilkins6gatech.happyhealthytummyapp.Adapters.WeeklyFragment;
 import edu.awilkins6gatech.happyhealthytummyapp.R;
 
 public class MainPageActivity extends AppCompatActivity {
@@ -52,7 +53,7 @@ public class MainPageActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         //adds the tab fragments
         adapter.addFragments(new DailyFragment(), "Daily");
-        adapter.addFragments(new DailyFragment(), "Weekly");
+        adapter.addFragments(new WeeklyFragment(), "Weekly");
 
         viewPager.setAdapter(adapter);
 
