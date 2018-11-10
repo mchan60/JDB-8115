@@ -64,8 +64,10 @@ public class DailyFragment extends Fragment implements AdapterView.OnItemClickLi
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Intent goToViewEntryPage = new Intent(getActivity(), ViewEntryActivity.class);
-                    goToViewEntryPage.putExtra("DIARY_ENTRY", ((int) l));
-                    goToViewEntryPage.putExtra("TIMESTAMP", entriesList.get((int) l).getTimestamp());
+                    int index = entriesList.size() - 1 - (int) l;
+                    goToViewEntryPage.putExtra("DIARY_ENTRY", ((int) index));
+
+                    goToViewEntryPage.putExtra("TIMESTAMP", entriesList.get(index).getTimestamp());
                     startActivity(goToViewEntryPage);
                 }
 
@@ -80,7 +82,7 @@ public class DailyFragment extends Fragment implements AdapterView.OnItemClickLi
                     @Override
                     public void onRefresh() {
                         ((MainPageActivity) getActivity()).refreshNow();
-                        Toast.makeText(getContext(), "Refresh Layout working", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Done!", Toast.LENGTH_LONG).show();
                     }
                 }
         );
