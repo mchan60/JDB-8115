@@ -10,6 +10,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.*;
 
@@ -20,8 +22,9 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.*;
 
+import edu.awilkins6gatech.happyhealthytummyapp.AsyncTasks.MakeHttpRequestTask;
 import edu.awilkins6gatech.happyhealthytummyapp.Data.EntryDB;
 import edu.awilkins6gatech.happyhealthytummyapp.Model.DiaryEntry;
 import edu.awilkins6gatech.happyhealthytummyapp.R;
@@ -30,8 +33,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
-import java.util.Dictionary;
-import java.util.HashMap;
 
 public class AddEntryPageActivity extends AppCompatActivity {
 
@@ -45,16 +46,18 @@ public class AddEntryPageActivity extends AppCompatActivity {
     EditText calories;
     Switch happy;
 
-    ArrayList<DiaryEntry> diaryEntries;
+    ArrayList<DiaryEntry> diaryEntries = new ArrayList<>();
 
-    EntryDB entriesDB;
+    EntryDB entriesDB = new EntryDB(this);
 
     private static final String API_KEY = "NBBlANdKXJcyLoYBmNc1zRBNbDaISebIhU38c153";
 
     private static final String NUTRITION_DATA_REPO = "https://api.nal.usda.gov/ndb/V2/reports?type=f&format=json&api_key="+ API_KEY + "&ndbno=";
     private static final String NUTRITION_DATA_SEARCH = "https://api.nal.usda.gov/ndb/search/?format=json&sort=n&max=5&offset=0&api_key=" + API_KEY + "&q=";
 
-    private static final String[] AUTOCOMPLETE_ENTRIES = {"Apple", "Pear", "Cheese"};
+    private static final String[] AUTOCOMPLETE_ENTRIES_TEMP = {"Apple", "Pear", "Cheese"};
+    private static String[] autocompleteEntries = {};
+    private static HashMap<String, String> entriesAndIds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,18 +69,42 @@ public class AddEntryPageActivity extends AppCompatActivity {
         postEntryButton = (Button)(findViewById(R.id.postEntryButton));
         foodImage = (ImageView)(findViewById(R.id.foodImage));
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, AUTOCOMPLETE_ENTRIES);
-
-        title = findViewById(R.id.title);
-        title.setThreshold(1);
-        title.setAdapter(adapter);
 
         description = (EditText)(findViewById(R.id.description));
         calories = (EditText)(findViewById(R.id.calories));
         happy = (Switch)(findViewById(R.id.switch1));
 
-        diaryEntries = new ArrayList<DiaryEntry>();
-        entriesDB = new EntryDB(this);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, autocompleteEntries);
+
+        title = findViewById(R.id.title);
+        title.setThreshold(3);
+        title.setAdapter(adapter);
+        title.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = (String) parent.getItemAtPosition(position);
+                String autocompleteEntryTimestamp = entriesAndIds.get(selectedItem);
+                DiaryEntry autocompleteEntry = entriesDB.getEntry(autocompleteEntryTimestamp);
+
+                description.setText(autocompleteEntry.getDescription());
+                calories.setText(Integer.toString(autocompleteEntry.getCalories()));
+                happy.setChecked(autocompleteEntry.getHappy() == 1);
+            }
+        });
+        title.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                List<DiaryEntry> potentialEntries = entriesDB.getEntriesByName(s.toString());
+                updateAutocompleteList(potentialEntries);
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -132,10 +159,20 @@ public class AddEntryPageActivity extends AppCompatActivity {
         entriesDB.addEntry(newDiaryEntry);
     }
 
+    private void updateAutocompleteList(List<DiaryEntry> entries) {
+        entriesAndIds = new HashMap<>();
+        for (DiaryEntry d : entries) {
+            entriesAndIds.put(d.getTitle(), d.getTimestamp());
+        }
+        Set<String> autocompleteEntriesSet = entriesAndIds.keySet();
+        autocompleteEntries = autocompleteEntriesSet.toArray(new String[autocompleteEntriesSet.size()]);
+    }
+
     public static HashMap<String, String> searchNutritionDB(String searchString) {
         HashMap<String, String> nameNdbnoPairs = new HashMap<>();
         try {
-            JSONObject searchResultsJson = makeNutritionDBHttpRequest(NUTRITION_DATA_SEARCH + searchString);
+            MakeHttpRequestTask asyncTask = new MakeHttpRequestTask();
+            JSONObject searchResultsJson = (asyncTask.execute(NUTRITION_DATA_SEARCH + searchString).get())[0];
             JSONArray searchResultsList = searchResultsJson.getJSONObject("list").getJSONArray("item");
             int arrayLength = searchResultsList.length();
             for (int i = 0; i < arrayLength; i++) {
@@ -145,38 +182,24 @@ public class AddEntryPageActivity extends AppCompatActivity {
                 nameNdbnoPairs.put(name, ndbno);
             }
         } catch (Exception ex) {
-            //Handle exception
+            Exception exception = ex;
+            //log exception
         }
         return nameNdbnoPairs;
     }
 
     public static JSONObject retrieveNutritionInfoFromDB(String ndbNumber) {
-        JSONObject nutritionInfo = makeNutritionDBHttpRequest(NUTRITION_DATA_REPO + ndbNumber);
+        MakeHttpRequestTask asyncTask = new MakeHttpRequestTask();
+        JSONObject nutritionInfo = null;
+        try {
+            nutritionInfo = (asyncTask.execute(NUTRITION_DATA_REPO + ndbNumber).get())[0];
+        } catch (Exception ex) {
+            Exception exception = ex;
+            //log exception
+        }
         return nutritionInfo;
     }
 
-    private static JSONObject makeNutritionDBHttpRequest(String request){
-        JSONObject response = null;
-        try {
-            URL url = new URL(request);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            con.setRequestProperty("Content-Type", "application/json");
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            String content = "";
-            while ((inputLine = in.readLine()) != null) {
-                content = content + inputLine;
-            }
-            in.close();
-            con.disconnect();
-            response = new JSONObject(content);
-        }catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return response;
-    }
+
 
 }

@@ -103,6 +103,27 @@ public class EntryDB extends SQLiteOpenHelper {
         return null;
     }
 
+    public List<DiaryEntry> getEntriesByName(String keyword) {
+        List<DiaryEntry> entries = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + ENTRIES_TABLE_NAME + " WHERE TITLE LIKE \'%" + keyword + "%\'", null);
+        if (res.moveToFirst()) {
+            do {
+                DiaryEntry entry = new DiaryEntry();
+
+                entry.setFileUri(res.getString(res.getColumnIndex("FILEURI")));
+                entry.setCalories((res.getInt(res.getColumnIndex("CALORIES"))));
+                entry.setTimestamp(res.getString(res.getColumnIndex("TIMESTAMP")));
+                entry.setTitle(res.getString(res.getColumnIndex("TITLE")));
+                entry.setDescription(res.getString(res.getColumnIndex("DESCRIPTION")));
+                entry.setHappy(res.getInt(res.getColumnIndex("HAPPY")));
+                entries.add(entry);
+            } while (res.moveToNext());
+        }
+        return entries;
+    }
+
     public boolean deleteEntry(String timestamp) {
         SQLiteDatabase db = this.getWritableDatabase();
         long deleteTestInt = db.delete(ENTRIES_TABLE_NAME, "TIMESTAMP = ?", new String[]{timestamp});
