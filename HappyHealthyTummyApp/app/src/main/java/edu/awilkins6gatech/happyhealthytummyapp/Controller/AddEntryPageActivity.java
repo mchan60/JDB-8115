@@ -15,13 +15,8 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.*;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.util.*;
 
 import edu.awilkins6gatech.happyhealthytummyapp.AsyncTasks.MakeHttpRequestTask;
@@ -29,10 +24,7 @@ import edu.awilkins6gatech.happyhealthytummyapp.Data.EntryDB;
 import edu.awilkins6gatech.happyhealthytummyapp.Model.DiaryEntry;
 import edu.awilkins6gatech.happyhealthytummyapp.R;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.net.HttpURLConnection;
 
 public class AddEntryPageActivity extends AppCompatActivity {
 
