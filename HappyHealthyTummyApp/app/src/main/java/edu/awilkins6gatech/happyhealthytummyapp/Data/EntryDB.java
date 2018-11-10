@@ -93,14 +93,20 @@ public class EntryDB extends SQLiteOpenHelper {
     }
 
     public DiaryEntry getEntry(String timestamp) {
-        ArrayList<DiaryEntry> entries = new ArrayList<DiaryEntry>();
-        entries = (ArrayList<DiaryEntry>) this.getEntries();
-        for (int i = 0; i < entries.size(); i++) {
-            if (entries.get(i).getTimestamp().equals(timestamp)) {
-                return entries.get(i);
-            }
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + ENTRIES_TABLE_NAME + " WHERE TIMESTAMP = \'" + timestamp + "\'", null);
+        DiaryEntry entry = new DiaryEntry();
+        if (res.moveToFirst()) {
+            do {
+                entry.setFileUri(res.getString(res.getColumnIndex("FILEURI")));
+                entry.setCalories((res.getInt(res.getColumnIndex("CALORIES"))));
+                entry.setTimestamp(res.getString(res.getColumnIndex("TIMESTAMP")));
+                entry.setTitle(res.getString(res.getColumnIndex("TITLE")));
+                entry.setDescription(res.getString(res.getColumnIndex("DESCRIPTION")));
+                entry.setHappy(res.getInt(res.getColumnIndex("HAPPY")));
+            } while (res.moveToNext());
         }
-        return null;
+        return entry;
     }
 
     public List<DiaryEntry> getEntriesByName(String keyword) {

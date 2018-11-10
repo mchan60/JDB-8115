@@ -41,6 +41,7 @@ public class DBTest extends BaseTestClass {
     public void testReadOperation() {
         DiaryEntry retrievedEntry1 = dataBase.getEntry(entry1.getTimestamp());
         Assert.assertEquals("The entry1 from the database is not correct", entry1, retrievedEntry1);
+        DiaryEntry unretrievableEntry = dataBase.getEntry("000000000000");
     }
 
     @Test
