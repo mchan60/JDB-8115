@@ -19,7 +19,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/Bg"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -76,17 +76,17 @@
         <activity
             android:name=".Controller.FeedbackActivity"
             android:label="Feedback"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".Controller.MainPageActivity"></activity>
+            android:parentActivityName=".Controller.MainPageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Controller.CalendarActivity"
             android:label="Monthly"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".Controller.MainPageActivity"></activity>
-
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+            android:parentActivityName=".Controller.MainPageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Controller.AddNotificationPageActivity"
+            android:label="@string/title_activity_add_notification_page"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
