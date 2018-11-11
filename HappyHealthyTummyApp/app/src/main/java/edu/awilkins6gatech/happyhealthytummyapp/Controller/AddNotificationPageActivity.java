@@ -1,5 +1,8 @@
 package edu.awilkins6gatech.happyhealthytummyapp.Controller;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,8 +15,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TimePicker;
 
+import java.util.Calendar;
+
 import edu.awilkins6gatech.happyhealthytummyapp.Data.NotificationDB;
 import edu.awilkins6gatech.happyhealthytummyapp.Model.NotificationEntry;
+import edu.awilkins6gatech.happyhealthytummyapp.Model.NotificationReceiver;
 import edu.awilkins6gatech.happyhealthytummyapp.R;
 
 public class AddNotificationPageActivity extends AppCompatActivity {
@@ -103,6 +109,27 @@ public class AddNotificationPageActivity extends AppCompatActivity {
         notification.setMeal(((RadioButton) findViewById(mealGroup.getCheckedRadioButtonId())).getText().toString());
         notification.setTime(String.format("%02d:%02d", timePicker.getCurrentHour() ,timePicker.getCurrentMinute()));
         notificationDB.editEntry(notification, id);
+
+        Intent notifyIntent = new Intent(this, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast
+                (this, 999, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+
+        alarmManager.cancel(pendingIntent);
+        pendingIntent.cancel();
+
+        Calendar calendar = Calendar.getInstance();
+
+        Calendar notificationCalendar = Calendar.getInstance();
+        notificationCalendar.set(Calendar.HOUR_OF_DAY, timePicker.getCurrentHour());
+        notificationCalendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
+        notificationCalendar.set(Calendar.SECOND, 0);
+
+        if (notificationCalendar.before(calendar)) {
+            notificationCalendar.add(Calendar.DATE, 1);
+        }
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  notificationCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
     private void addNotification() {
@@ -110,6 +137,24 @@ public class AddNotificationPageActivity extends AppCompatActivity {
         notification.setMeal(((RadioButton) findViewById(mealGroup.getCheckedRadioButtonId())).getText().toString());
         notification.setTime(String.format("%02d:%02d", timePicker.getCurrentHour() ,timePicker.getCurrentMinute()));
         notificationDB.addEntry(notification);
+
+        Intent notifyIntent = new Intent(this, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast
+                (this, 999, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+
+        Calendar calendar = Calendar.getInstance();
+
+        Calendar notificationCalendar = Calendar.getInstance();
+        notificationCalendar.set(Calendar.HOUR_OF_DAY, timePicker.getCurrentHour());
+        notificationCalendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
+        notificationCalendar.set(Calendar.SECOND, 0);
+
+        if (notificationCalendar.before(calendar)) {
+            notificationCalendar.add(Calendar.DATE, 1);
+        }
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP,  notificationCalendar.getTimeInMillis(), pendingIntent);
     }
 
 }
