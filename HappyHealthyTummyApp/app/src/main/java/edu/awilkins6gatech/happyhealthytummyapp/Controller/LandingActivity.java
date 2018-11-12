@@ -277,9 +277,8 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
     }
 
     private String getTimestamp() {
-        timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+        timeStamp = new SimpleDateFormat("yyyyMMMddEEEE_HHmmss",
                 Locale.getDefault()).format(new Date());
         return timeStamp;
     }
-
 }

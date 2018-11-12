@@ -75,7 +75,7 @@ public class ViewEntryActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        timestamp.setText(entry.getTimestamp());
+        timestamp.setText(entry.getFormattedTime());
         title.setText(entry.getTitle());
         description.setText(entry.getDescription());
         calories.setText(Integer.toString(entry.getCalories()));
