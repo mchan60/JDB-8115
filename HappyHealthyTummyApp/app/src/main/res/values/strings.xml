@@ -8,4 +8,5 @@
     <string name="title_activity_recipe_search">RecipeSearchActivity</string>
     <string name="title_activity_diet_search">DietSearchActivity</string>
     <string name="title_activity_feedback">FeedbackActivity</string>
+    <string name="title_activity_add_notification_page">AddNotificationPageActivity</string>
 </resources>

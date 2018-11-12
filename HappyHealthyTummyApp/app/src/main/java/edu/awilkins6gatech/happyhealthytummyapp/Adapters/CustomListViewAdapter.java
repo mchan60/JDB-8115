@@ -36,6 +36,7 @@ public class CustomListViewAdapter extends ArrayAdapter<DiaryEntry> {
     private class ViewHolder {
         ImageView imageView;
         TextView txtTitle;
+        TextView timeStamp;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -47,10 +48,13 @@ public class CustomListViewAdapter extends ArrayAdapter<DiaryEntry> {
             LayoutInflater vi = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = vi.inflate(R.layout.list_item, parent, false);
             holder.txtTitle = (TextView) view.findViewById(R.id.title);
+            holder.timeStamp = (TextView) view.findViewById(R.id.time);
             holder.imageView = (ImageView) view.findViewById(R.id.icon); //REFERENCE TO THE IMAGE BEING DISPLAYED
         }
         holder.txtTitle = (TextView) view.findViewById(R.id.title);
         holder.imageView = (ImageView) view.findViewById(R.id.icon);
+        holder.timeStamp = (TextView) view.findViewById(R.id.time);
+
         view.setTag(holder);
         System.out.println("in custom adapter, view was STILL null");
 
@@ -61,6 +65,11 @@ public class CustomListViewAdapter extends ArrayAdapter<DiaryEntry> {
                 holder.txtTitle.setText(rowItem.getTitle());
             } else {
                 holder.txtTitle.setText("no title");
+            }
+            if (rowItem.getTimestamp() != null) {
+                holder.timeStamp.setText(rowItem.getTimestamp());
+            } else {
+                holder.timeStamp.setText("no time");
             }
             //this line is what sets the image to be displayed
             try {

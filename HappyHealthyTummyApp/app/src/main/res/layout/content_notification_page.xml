@@ -8,4 +8,11 @@
     tools:context=".Controller.NotificationPageActivity"
     tools:showIn="@layout/activity_notification_page">
 
+    <ListView
+        android:id="@+id/notifications"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
 </android.support.constraint.ConstraintLayout>
