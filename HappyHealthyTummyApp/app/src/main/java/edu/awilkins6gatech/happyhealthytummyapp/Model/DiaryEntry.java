@@ -26,6 +26,17 @@ public class DiaryEntry implements Serializable {
     private String description;
     private int happy;
     private static final String ENTRY_DIRECTORY_NAME = "Entries";
+    private String month;
+    private int monthNumber;
+    private String day;
+    private String dayNumber;
+    private String year;
+    private String hour;
+    private String minutes;
+    private boolean am;
+    private boolean pm;
+    private String formattedHour;
+
 
 
     public DiaryEntry() {
@@ -177,5 +188,101 @@ public class DiaryEntry implements Serializable {
         return isEqual;
     }
 
+    public String getYear() {
+        year = timestamp.substring(0,4);
+        return year;
+    }
 
+    public String getMonth() {
+        month = timestamp.substring(4,7);
+        return month;
+    }
+
+    public String getDayNumber() {
+        dayNumber = timestamp.substring(7,9);
+        dayNumber = dayNumber.replaceAll(" ", "");
+        dayNumber = dayNumber.trim();
+        return dayNumber;
+    }
+
+    public String getDay() {
+        if (timestamp != null) {
+            day = timestamp.substring(9,13);
+        } else {
+            day = "Not a Day";
+        }
+        return day;
+    }
+
+    public String getHour() {
+        hour = timestamp.substring(14,16);
+        return hour;
+    }
+
+    public String getMinutes() {
+        minutes = timestamp.substring(16,18);
+        return minutes;
+    }
+
+    public String getFormattedHour(String hour) {
+        if (Integer.parseInt(hour) > 12) {
+            formattedHour = String.valueOf((Integer.parseInt(hour) - 12));
+        } else {
+            formattedHour = hour;
+        }
+        return formattedHour;
+    }
+
+    public void setAMorPM() {
+        if (Integer.parseInt(hour) > 11 && Integer.parseInt(hour) < 24) {
+            pm = true;
+        } else {
+            am = true;
+        }
+    }
+    public String getFormattedTime() {
+        day = getDay();
+        month = getMonth();
+        dayNumber = getDayNumber();
+        year = getYear();
+        //String formattedTimeStamp = getFormattedHour(getHour()) +":" +getMinutes();
+//        if (am) {
+//            formattedTimeStamp = formattedTimeStamp + " " + "AM";
+//        } else {
+//            formattedTimeStamp = formattedTimeStamp + " " + "PM";
+//        }
+        return day + ", " + month + " " + dayNumber + ", " + year + " "; // + formattedTimeStamp;
+    }
+
+    public int getMonthNumber() {
+        month = getMonth();
+        int monthNumber = 0;
+        switch(month) {
+            case "Jan":
+                monthNumber = 1;
+            case "Feb":
+                monthNumber = 2;
+            case "Mar":
+                monthNumber = 3;
+            case "Apr":
+                monthNumber = 4;
+            case "May":
+                monthNumber = 5;
+            case "Jun":
+                monthNumber = 6;
+            case "Jul":
+                monthNumber = 7;
+            case "Aug":
+                monthNumber = 8;
+            case "Sep":
+                monthNumber = 9;
+            case "Oct":
+                monthNumber = 10;
+            case "Nov":
+                monthNumber = 11;
+            case "Dec":
+                monthNumber = 12;
+        }
+        return monthNumber;
+    }
 }

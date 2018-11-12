@@ -26,6 +26,9 @@ public class EntryDB extends SQLiteOpenHelper {
     public static final String DESCRIPTION = "DESCRIPTION";
     public static final String HAPPY = "HAPPY";
 
+    public static final String SELECTED_ENTRIES_TABLE_NAME = "selected_entries";
+    public static final String SELECTENTRYLIST = "SELECTENTRYLIST";
+
 
     public EntryDB(Context context) {
 
@@ -36,11 +39,13 @@ public class EntryDB extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + ENTRIES_TABLE_NAME + " (IDL INTEGER PRIMARY KEY AUTOINCREMENT, ENTRYID, FILEURI, CALORIES, TIMESTAMP," +
                 " TITLE, DESCRIPTION, HAPPY)");
+        db.execSQL("CREATE TABLE " + SELECTED_ENTRIES_TABLE_NAME + "(IDL INTEGER PRIMARY KEY AUTOINCREMENT, SELECTENTRYLIST)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + ENTRIES_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + SELECTED_ENTRIES_TABLE_NAME);
         onCreate(db);
     }
 
@@ -110,6 +115,32 @@ public class EntryDB extends SQLiteOpenHelper {
         return deletedSuccessfully;
     }
 
+    public boolean addSelection(int index) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(SELECTENTRYLIST, index);
+        db.insert(SELECTED_ENTRIES_TABLE_NAME, null, contentValues);
+        return true;
+    }
+
+    public boolean deleteSelection(String index) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(SELECTED_ENTRIES_TABLE_NAME,"SELECTENTRYLIST = ?", new String[]{index});
+        return true;
+    }
+
+    public List<Integer> getSelectedEntriesIndices() {
+        List<Integer> selectedIndices = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + SELECTED_ENTRIES_TABLE_NAME, null);
+        if (res.moveToFirst()) {
+            do {
+                selectedIndices.add(Integer.parseInt(res.getString(res.getColumnIndex("SELECTENTRYLIST"))));
+            } while (res.moveToNext());
+        }
+        return selectedIndices;
+    }
 
 }
 
