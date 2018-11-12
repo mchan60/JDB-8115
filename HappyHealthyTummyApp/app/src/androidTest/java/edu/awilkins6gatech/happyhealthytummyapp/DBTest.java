@@ -41,6 +41,11 @@ public class DBTest extends BaseTestClass {
     public void testReadOperation() {
         DiaryEntry retrievedEntry1 = dataBase.getEntry(entry1.getTimestamp());
         Assert.assertEquals("The entry1 from the database is not correct", entry1, retrievedEntry1);
+        try {
+            DiaryEntry unretrievableEntry = dataBase.getEntry("aaaaaaaaaaaa");
+        } catch (Exception ex) {
+            Assert.fail("There was a " + ex.getClass().getName() + " exception when a nonexistent entry was retrieved.");
+        }
     }
 
     @Test
@@ -69,6 +74,28 @@ public class DBTest extends BaseTestClass {
     public void testDeleteOperation() {
         boolean deletedSuccessfully = dataBase.deleteEntry(entry1.getTimestamp());
         Assert.assertTrue("The entry was not deleted successfully", deletedSuccessfully);
+    }
+
+    @Test
+    public void getByNameTest() {
+        DiaryEntry entry1 = createRandomEntry();
+        entry1.setTitle("Apple");
+        DiaryEntry entry2 = createRandomEntry();
+        entry2.setTitle("App");
+        DiaryEntry entry3 = createRandomEntry();
+        entry3.setTitle("Pear");
+        dataBase.addEntry(entry1);
+        dataBase.addEntry(entry2);
+        dataBase.addEntry(entry3);
+        List<DiaryEntry> entriesApple = dataBase.getEntriesByName("Apple");
+        boolean appleQueryOnlyReturnsAppleEntry = entriesApple.contains(entry1) && !entriesApple.contains(entry2) && !entriesApple.contains(entry3);
+        Assert.assertTrue("Apple query returned entries other than just the Apple entry", appleQueryOnlyReturnsAppleEntry);
+        List<DiaryEntry> entriesApp = dataBase.getEntriesByName("App");
+        boolean appQueryReturnsOnlyAppleAndApp = entriesApp.contains(entry1) && entriesApp.contains(entry2) && !entriesApp.contains(entry3);
+        Assert.assertTrue("Apple query returned entries other than just the Apple and App Entries", appQueryReturnsOnlyAppleAndApp);
+        List<DiaryEntry> entriesSteak = dataBase.getEntriesByName("Steak");
+        boolean steakQueryReturnsEmptyList = !entriesSteak.contains(entry1) && !entriesSteak.contains(entry2) && !entriesSteak.contains(entry3);
+        Assert.assertTrue("Steak query returned non-steak entries", steakQueryReturnsEmptyList);
     }
 
     private static DiaryEntry createRandomEntry() {
