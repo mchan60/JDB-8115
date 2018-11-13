@@ -20,7 +20,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
+                android:background="@android:color/holo_purple"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         </android.support.design.widget.AppBarLayout>
@@ -39,13 +39,25 @@
 
         <include layout="@layout/content_notification_page" />
 
-        <Button
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/addNotificationButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:text="Add Notification" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="344dp"
+            android:layout_marginBottom="20dp"
+            android:clickable="true"
+            app:backgroundTint="@android:color/holo_purple"
+            app:srcCompat="@android:drawable/ic_menu_add" />
+
+        <!--<Button-->
+            <!--android:id="@+id/addNotificationButton"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:text="Add Notification" />-->
 
     </RelativeLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

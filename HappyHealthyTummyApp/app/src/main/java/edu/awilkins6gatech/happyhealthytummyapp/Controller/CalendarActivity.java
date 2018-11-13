@@ -39,22 +39,20 @@ import edu.awilkins6gatech.happyhealthytummyapp.R;
 
 public class CalendarActivity extends AppCompatActivity {
     CalendarView mCalendarView;
-    ImageView testImage;
     EntryDB entryDB;
     List<DiaryEntry> diaryEntryList;
     DiaryEntry selectedEntry;
     List<DiaryEntry> selectedEntries;
     ArrayList<Integer> selectedIndices;
     TextView testTextView;
-    Button searchButton;
+    FloatingActionButton searchButton;
     String currentDate;
-    GridView gridView;
     ListView listView;
-    RecyclerView recyclerView;
     int currentDay;
     int currentMonth;
     int currentYear;
     String currentMonthName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,13 +69,10 @@ public class CalendarActivity extends AppCompatActivity {
             selectedEntry = diaryEntryList.get(0);
         }
 
-        //gridView = (GridView) findViewById(R.id.gridView);
         listView = (ListView) findViewById(R.id.listView);
-        //recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mCalendarView = (CalendarView)findViewById(R.id.calendarView);
-        //testImage = (ImageView)findViewById(R.id.testImage);
         testTextView = (TextView)findViewById(R.id.title);
-        searchButton = (Button)findViewById(R.id.searchButton);
+        searchButton = (FloatingActionButton)findViewById(R.id.searchButton);
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -89,15 +84,7 @@ public class CalendarActivity extends AppCompatActivity {
                 startActivity(goToViewEntryPage);
             }
         });
-//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent goToViewEntryPage = new Intent(CalendarActivity.this, ViewEntryActivity.class);
-//                goToViewEntryPage.putExtra("DIARY_ENTRY", ((int) l));
-//                goToViewEntryPage.putExtra("TIMESTAMP", selectedEntries.get((int) l).getTimestamp());
-//                startActivity(goToViewEntryPage);
-//            }
-//        });
+
 
         //selecting the image by date
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -151,9 +138,6 @@ public class CalendarActivity extends AppCompatActivity {
                         R.id.diaryEntries, selectedEntries);
                 listView.setAdapter(adapter);
 
-//                if (selectedEntries.size() > 0) {
-//                    gridView.setAdapter(new ImageAdapter(CalendarActivity.this));
-//                }
                 System.out.println(selectedIndices.size());
             }
         });
@@ -164,12 +148,6 @@ public class CalendarActivity extends AppCompatActivity {
             System.out.println("not selecting ENTRIES !!!!!");
         }
 
-
-//        try {
-//            testImage.setImageBitmap(BitmapFactory.decodeStream(this.getContentResolver().openInputStream(Uri.parse(selectedEntry.getFileUri()))));
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

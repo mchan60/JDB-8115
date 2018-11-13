@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.List;
 
 import edu.awilkins6gatech.happyhealthytummyapp.Controller.MainPageActivity;
@@ -40,7 +41,6 @@ public class DailyFragment extends Fragment implements AdapterView.OnItemClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        position = getArguments().getInt("pos");
     }
 
     @Override
@@ -49,8 +49,10 @@ public class DailyFragment extends Fragment implements AdapterView.OnItemClickLi
 
         View view  = inflater.inflate(R.layout.fragment_daily, container, false);
 
+        //code to load database
         entryDB = new EntryDB(getActivity());
         entriesList = entryDB.getEntries();
+        Collections.reverse(entriesList);
 
         listView = (ListView) view.findViewById(R.id.diaryEntries);
         if (listView == null) System.out.println("list view is null in main FIX IT !!!!!!!");

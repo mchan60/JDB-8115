@@ -28,7 +28,7 @@ import org.json.JSONObject;
 
 public class AddEntryPageActivity extends AppCompatActivity {
 
-    Button postEntryButton;
+    FloatingActionButton postEntryButton;
     ImageView foodImage;
     Uri selectedImage;
     Bitmap bitmap;
@@ -47,7 +47,6 @@ public class AddEntryPageActivity extends AppCompatActivity {
     private static final String NUTRITION_DATA_REPO = "https://api.nal.usda.gov/ndb/V2/reports?type=f&format=json&api_key="+ API_KEY + "&ndbno=";
     private static final String NUTRITION_DATA_SEARCH = "https://api.nal.usda.gov/ndb/search/?format=json&sort=n&max=5&offset=0&api_key=" + API_KEY + "&q=";
 
-    private static final String[] AUTOCOMPLETE_ENTRIES_TEMP = {"Apple", "Pear", "Cheese"};
     private static String[] autocompleteEntries = {};
     private static HashMap<String, String> entriesAndIds;
 
@@ -58,7 +57,7 @@ public class AddEntryPageActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        postEntryButton = (Button)(findViewById(R.id.postEntryButton));
+        postEntryButton = (FloatingActionButton)(findViewById(R.id.postEntryButton));
         foodImage = (ImageView)(findViewById(R.id.foodImage));
 
 
@@ -98,14 +97,6 @@ public class AddEntryPageActivity extends AppCompatActivity {
             }
         });
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
         selectedImage = Uri.parse( (String) getIntent().getExtras().get("File Uri"));
         try {
             bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
@@ -134,7 +125,9 @@ public class AddEntryPageActivity extends AppCompatActivity {
     }
 
     String newTitle, newDescription;
+
     int newCalories, newHappy;
+
     private void addDiaryEntry() {
         newTitle = title.getText().toString();
         newDescription = description.getText().toString();

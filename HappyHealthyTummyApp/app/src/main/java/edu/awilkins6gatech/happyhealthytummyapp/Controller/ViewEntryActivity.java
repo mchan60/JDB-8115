@@ -35,10 +35,10 @@ public class ViewEntryActivity extends AppCompatActivity {
     List<DiaryEntry> entriesList;
     DiaryEntry entry;
 
-    Button backToMainPage;
+    FloatingActionButton backToMainPage;
 
-    Button editDiaryEntry;
-    Button deleteDiaryEntry;
+    FloatingActionButton editDiaryEntry;
+    FloatingActionButton deleteDiaryEntry;
 
 
     @Override
@@ -55,10 +55,10 @@ public class ViewEntryActivity extends AppCompatActivity {
         calories = (TextView) (findViewById(R.id.calories));
         happy = (TextView) (findViewById(R.id.happy));
 
-        backToMainPage = (Button) (findViewById(R.id.backToDiaryButton));
+        backToMainPage = (FloatingActionButton) (findViewById(R.id.backToDiaryButton));
 
-        editDiaryEntry = (Button) (findViewById(R.id.editButton));
-        deleteDiaryEntry = (Button) (findViewById(R.id.deleteButton));
+        editDiaryEntry = (FloatingActionButton) (findViewById(R.id.editButton));
+        deleteDiaryEntry = (FloatingActionButton) (findViewById(R.id.deleteButton));
 
         entriesIndex = (int) getIntent().getExtras().get("DIARY_ENTRY");
         entryTimestamp = (String)getIntent().getExtras().get("TIMESTAMP");
@@ -85,14 +85,6 @@ public class ViewEntryActivity extends AppCompatActivity {
             happy.setText("Not Happy!");
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         backToMainPage.setOnClickListener(new View.OnClickListener() {
             @Override

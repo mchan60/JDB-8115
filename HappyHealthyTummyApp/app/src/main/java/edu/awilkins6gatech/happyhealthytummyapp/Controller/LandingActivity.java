@@ -105,15 +105,11 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
                 // successfully captured the image
                 bmp = (Bitmap) data.getExtras().get("data");
                 fileUri = getOutputMediaFileUri(1);
-                //DiaryEntry newEntry = new DiaryEntry()
-                //data.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-
                 //move onto next activity
                 Intent intent = new Intent(
                         LandingActivity.this, AddEntryPageActivity.class);
                 intent.putExtra("File Uri", String.valueOf(fileUri));
                 intent.putExtra("Time Stamp", timeStamp);
-                //intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
                 startActivity(intent);
                 //captureImage();
             } else if (resultCode == RESULT_CANCELED) {
@@ -124,7 +120,6 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
                 //move onto next activity
                 Intent intent = new Intent(
                         LandingActivity.this, MainPageActivity.class);
-                //intent.putExtra("File Uri", fileUri.toString());
                 startActivity(intent);
             } else {
                 // failed to capture image
@@ -201,11 +196,7 @@ public class LandingActivity extends Activity implements SurfaceHolder.Callback 
         public boolean onFling(MotionEvent event1, MotionEvent event2,
                                float velocityX, float velocityY) {
 
-         /*
-         Toast.makeText(getBaseContext(),
-          event1.toString() + "\n\n" +event2.toString(),
-          Toast.LENGTH_SHORT).show();
-         */
+
 
             if(event2.getX() < event1.getX()){
                 Toast.makeText(getBaseContext(),

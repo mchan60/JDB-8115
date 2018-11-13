@@ -25,8 +25,8 @@ import edu.awilkins6gatech.happyhealthytummyapp.R;
 public class AddNotificationPageActivity extends AppCompatActivity {
 
     TimePicker timePicker;
-    Button saveNotificationButton;
-    Button deleteNotificationButton;
+    FloatingActionButton saveNotificationButton;
+    FloatingActionButton deleteNotificationButton;
 
     RadioGroup mealGroup;
 
@@ -41,7 +41,7 @@ public class AddNotificationPageActivity extends AppCompatActivity {
 
         notificationDB = new NotificationDB(this);
 
-        saveNotificationButton = (Button) findViewById(R.id.saveNotificationButton);
+        saveNotificationButton = (FloatingActionButton) findViewById(R.id.saveNotificationButton);
         Bundle extras = getIntent().getExtras();
 
         saveNotificationButton.setOnClickListener(new View.OnClickListener() {
@@ -57,7 +57,7 @@ public class AddNotificationPageActivity extends AppCompatActivity {
             }
         });
 
-        deleteNotificationButton = (Button) findViewById(R.id.deleteNotificationButton);
+        deleteNotificationButton = (FloatingActionButton) findViewById(R.id.deleteNotificationButton);
         deleteNotificationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

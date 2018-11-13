@@ -22,7 +22,7 @@ import edu.awilkins6gatech.happyhealthytummyapp.R;
 
 public class NotificationPageActivity extends AppCompatActivity {
 
-    Button addNotificationButton;
+    FloatingActionButton addNotificationButton;
     ListView listView;
 
     NotificationDB notificationDB;
@@ -35,7 +35,7 @@ public class NotificationPageActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        addNotificationButton = (Button) findViewById(R.id.addNotificationButton);
+        addNotificationButton = (FloatingActionButton) findViewById(R.id.addNotificationButton);
         addNotificationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

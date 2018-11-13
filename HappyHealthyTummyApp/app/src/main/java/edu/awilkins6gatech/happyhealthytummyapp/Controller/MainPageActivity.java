@@ -3,6 +3,7 @@ import android.content.Intent;
 
 import android.os.Bundle;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -35,7 +36,7 @@ public class MainPageActivity extends AppCompatActivity {
 
 
 
-    Button camera;
+    private FloatingActionButton camera;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,7 @@ public class MainPageActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        camera = (Button)findViewById(R.id.camera);
+        camera = (FloatingActionButton)findViewById(R.id.addEntryButtonHome);
 
         //setting up
         tabLayout = (android.support.design.widget.TabLayout) findViewById(R.id.tabLayout);
@@ -62,7 +63,7 @@ public class MainPageActivity extends AppCompatActivity {
 
 
 //        camera.setOnClickListener(new View.OnClickListener() {
-
+//
 //            @Override
 //            public void onClick(View view) {
 //                Intent goToLandingPage = new Intent(MainPageActivity.this, LandingActivity.class);

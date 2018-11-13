@@ -26,7 +26,7 @@ import edu.awilkins6gatech.happyhealthytummyapp.R;
 
 public class EditEntryPageActivity extends AppCompatActivity {
 
-    Button doneEntryButton;
+    FloatingActionButton doneEntryButton;
     ImageView foodImage;
     Uri selectedImage;
     Bitmap bitmap;
@@ -40,7 +40,6 @@ public class EditEntryPageActivity extends AppCompatActivity {
 
     EntryDB entriesDB;
     DiaryEntry entry;
-    int entriesIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +48,7 @@ public class EditEntryPageActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
-        doneEntryButton = (Button)(findViewById(R.id.doneEntryButton));
+        doneEntryButton = (FloatingActionButton)(findViewById(R.id.doneEntryButton));
         foodImage = (ImageView)(findViewById(R.id.foodImage));
 
         title = (EditText)(findViewById(R.id.title));
@@ -59,7 +58,6 @@ public class EditEntryPageActivity extends AppCompatActivity {
 
         diaryEntries = new ArrayList<DiaryEntry>();
         entriesDB = new EntryDB(this);
-        //entriesIndex = (int) getIntent().getExtras().get("DIARY_ENTRY");
         entry = (DiaryEntry) getIntent().getExtras().get("DIARY ENTRY");
 
         title.setText(entry.getTitle());
@@ -67,15 +65,6 @@ public class EditEntryPageActivity extends AppCompatActivity {
         calories.setText(Integer.toString(entry.getCalories()));
         happy.setChecked(entry.getHappy() == 1);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        //selectedImage = Uri.parse( (String) getIntent().getExtras().get("File Uri"));
         selectedImage = Uri.parse(entry.getFileUri());
         try {
             bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
@@ -118,8 +107,6 @@ public class EditEntryPageActivity extends AppCompatActivity {
             newHappy = 0;
         }
 
-        //if (!newTitle.equals(entry.getTitle()) || !newDescription.equals(entry.getDescription())
-         //       || !(newCalories == entry.getCalories()) || !(newHappy == entry.getHappy())) {
             DiaryEntry updatedDiaryEntry = entry;
             entry.setTitle(newTitle);
             entry.setDescription(newDescription);
@@ -127,7 +114,6 @@ public class EditEntryPageActivity extends AppCompatActivity {
             entry.setHappy(newHappy);
             diaryEntries.add(updatedDiaryEntry);
             entriesDB.editEntry(entry);
-       // }
     }
 
 }
