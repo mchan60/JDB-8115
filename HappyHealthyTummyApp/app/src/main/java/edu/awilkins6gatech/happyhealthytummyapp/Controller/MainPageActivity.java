@@ -46,7 +46,7 @@ public class MainPageActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        camera = (FloatingActionButton)findViewById(R.id.addEntryButtonHome);
+        camera = (FloatingActionButton)findViewById(R.id.cameraButton);
 
         //setting up
         tabLayout = (android.support.design.widget.TabLayout) findViewById(R.id.tabLayout);
@@ -62,14 +62,14 @@ public class MainPageActivity extends AppCompatActivity {
 
 
 
-//        camera.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View view) {
-//                Intent goToLandingPage = new Intent(MainPageActivity.this, LandingActivity.class);
-//                startActivity(goToLandingPage);
-//            }
-//        });
+        camera.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent goToLandingPage = new Intent(MainPageActivity.this, LandingActivity.class);
+                startActivity(goToLandingPage);
+            }
+        });
 
 
     }
