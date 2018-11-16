@@ -67,7 +67,10 @@ public class CustomListViewAdapter extends ArrayAdapter<DiaryEntry> {
                 holder.txtTitle.setText("no title");
             }
             if (rowItem.getTimestamp() != null) {
-                holder.timeStamp.setText(rowItem.getTimestamp());
+                String year  = rowItem.getTimestamp().substring(0,4);
+                String month  = rowItem.getTimestamp().substring(4,7) + ".";
+                String day = rowItem.getTimestamp().substring(7,9);
+                holder.timeStamp.setText(month + " " + day + ", " + year);
             } else {
                 holder.timeStamp.setText("no time");
             }

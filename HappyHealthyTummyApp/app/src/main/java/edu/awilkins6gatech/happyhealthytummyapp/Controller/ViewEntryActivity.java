@@ -78,7 +78,7 @@ public class ViewEntryActivity extends AppCompatActivity {
         timestamp.setText(entry.getFormattedTime());
         title.setText(entry.getTitle());
         description.setText(entry.getDescription());
-        calories.setText(Integer.toString(entry.getCalories()));
+        calories.setText(Integer.toString(entry.getCalories())+ " cal.");
         if (entry.getHappy() == 1) {
             happy.setText("Happy!");
         } else {

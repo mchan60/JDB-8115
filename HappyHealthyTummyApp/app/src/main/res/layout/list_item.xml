@@ -5,15 +5,13 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
         android:contentDescription="Food Picture"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" />
+        android:cropToPadding="false"
+        android:scaleType="fitCenter" />
 
     <TextView
         android:id="@+id/title"
@@ -21,9 +19,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/icon"
         android:layout_centerHorizontal="true"
+        android:fontFamily="@font/comfortaa_light"
         android:paddingBottom="10dp"
-        android:textColor="#CC0033"
-        android:textSize="16dp" />
+        android:textColor="@color/colorAccent"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
     <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
@@ -31,6 +32,6 @@
         android:layout_below="@+id/title"
         android:layout_centerHorizontal="true"
         android:paddingBottom="10dp"
-        android:textColor="#CC0033"
+        android:textColor="@color/colorAccent"
         android:textSize="16dp" />
 </RelativeLayout>
