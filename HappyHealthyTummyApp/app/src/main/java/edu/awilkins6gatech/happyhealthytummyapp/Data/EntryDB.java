@@ -73,14 +73,14 @@ public class EntryDB extends SQLiteOpenHelper {
         contentValues.put(CALORIES, entry.getCalories());
         contentValues.put(HAPPY, entry.getHappy());
         long result = db.update(ENTRIES_TABLE_NAME, contentValues, "TIMESTAMP" + "=?", new String[]{entry.getTimestamp()});
-        //long result = db.update(ENTRIES_TABLE_NAME, contentValues, "ENTRYID = ?", new String[]{entry.getEntryID()});
         return (result != -1);
     }
     public List<DiaryEntry> getEntries() {
         List<DiaryEntry> entries = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + ENTRIES_TABLE_NAME, null);
+        //Cursor res = db.rawQuery("SELECT * FROM " + ENTRIES_TABLE_NAME, null);
+        Cursor res = db.query(ENTRIES_TABLE_NAME, null, null, null, null, null, null);
         if (res.moveToFirst()) {
             do {
                 DiaryEntry entry = new DiaryEntry();
@@ -99,7 +99,8 @@ public class EntryDB extends SQLiteOpenHelper {
 
     public DiaryEntry getEntry(String timestamp) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + ENTRIES_TABLE_NAME + " WHERE TIMESTAMP = \'" + timestamp + "\'", null);
+        //Cursor res = db.rawQuery("SELECT * FROM " + ENTRIES_TABLE_NAME + " WHERE TIMESTAMP = \'" + timestamp + "\'", null);
+        Cursor res = db.query(ENTRIES_TABLE_NAME, null, "TIMESTAMP = ?", new String[]{timestamp}, null, null, null, null);
         DiaryEntry entry = new DiaryEntry();
         if (res.moveToFirst()) {
             do {
@@ -118,7 +119,8 @@ public class EntryDB extends SQLiteOpenHelper {
         List<DiaryEntry> entries = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + ENTRIES_TABLE_NAME + " WHERE TITLE LIKE \'%" + keyword + "%\'", null);
+        //Cursor res = db.rawQuery("SELECT * FROM " + ENTRIES_TABLE_NAME + " WHERE TITLE LIKE \'%" + keyword + "%\'", null);
+        Cursor res = db.query(ENTRIES_TABLE_NAME, null, "TITLE LIKE ?", new String[]{"%" + keyword + "%"}, null, null, null, null);
         if (res.moveToFirst()) {
             do {
                 DiaryEntry entry = new DiaryEntry();
@@ -160,7 +162,8 @@ public class EntryDB extends SQLiteOpenHelper {
         List<Integer> selectedIndices = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + SELECTED_ENTRIES_TABLE_NAME, null);
+        //Cursor res = db.rawQuery("SELECT * FROM " + SELECTED_ENTRIES_TABLE_NAME, null);
+        Cursor res = db.query(SELECTED_ENTRIES_TABLE_NAME, null, null, null, null, null, null, null);
         if (res.moveToFirst()) {
             do {
                 selectedIndices.add(Integer.parseInt(res.getString(res.getColumnIndex("SELECTENTRYLIST"))));
@@ -168,7 +171,6 @@ public class EntryDB extends SQLiteOpenHelper {
         }
         return selectedIndices;
     }
-
 }
 
 

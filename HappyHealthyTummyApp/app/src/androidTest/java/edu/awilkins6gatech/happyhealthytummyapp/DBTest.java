@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.util.List;
+import java.util.Random;
 
 import static java.lang.Math.random;
 
@@ -61,12 +62,13 @@ public class DBTest extends BaseTestClass {
 
     @Test
     public void testUpdateOperation() {
-        DiaryEntry updatedEntry1 = entry1;
-        updatedEntry1.setCalories((int) random());
-        while (updatedEntry1.getCalories() == entry1.getCalories()) {
-            updatedEntry1.setCalories((int) random());
+        int caloriesEntry1Old = entry1.getCalories();
+        Random randomGenerator = new Random();
+        entry1.setCalories(randomGenerator.nextInt());
+        while (caloriesEntry1Old == entry1.getCalories()) {
+            entry1.setCalories(randomGenerator.nextInt());
         }
-        boolean editedSuccessfully = dataBase.editEntry(updatedEntry1);
+        boolean editedSuccessfully = dataBase.editEntry(entry1);
         Assert.assertTrue("Entry was not edited successfully", editedSuccessfully);
     }
 
