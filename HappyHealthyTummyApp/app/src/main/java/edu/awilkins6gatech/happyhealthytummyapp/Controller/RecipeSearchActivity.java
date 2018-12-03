@@ -35,14 +35,14 @@ public class RecipeSearchActivity extends AppCompatActivity {
         textview3.setText("3. Healthy Eggless Pancakes");
         textview4.setText("4. Simple Avocado Salad");
         textview5.setText("5. Mango-Coconut Sorbet");
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         //back arrow to main page
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

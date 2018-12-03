@@ -18,11 +18,11 @@
         android:orderInCategory="100"
         android:title="Feedback"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/monthly"
-        android:orderInCategory="100"
-        android:title="Monthly"
-        app:showAsAction="never" />
+    <!--<item-->
+        <!--android:id="@+id/monthly"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="Monthly"-->
+        <!--app:showAsAction="never" />-->
     <!--<item-->
         <!--android:id="@+id/settings"-->
         <!--android:orderInCategory="100"-->
