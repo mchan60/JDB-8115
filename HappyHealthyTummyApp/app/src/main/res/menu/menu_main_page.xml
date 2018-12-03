@@ -7,15 +7,11 @@
         android:orderInCategory="100"
         android:title="Notifications"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/dietSearch"
-        android:orderInCategory="100"
-        android:title="Diet Search"
-        app:showAsAction="never" />
+
     <item
         android:id="@+id/recipeSearch"
         android:orderInCategory="100"
-        android:title="Recipe Search"
+        android:title="Recipe List"
         app:showAsAction="never" />
     <item
         android:id="@+id/feedback"

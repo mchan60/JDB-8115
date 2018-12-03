@@ -17,6 +17,7 @@ import android.widget.Button;
 
 import android.widget.ImageView;
 
+import edu.awilkins6gatech.happyhealthytummyapp.Adapters.MonthlyFragment;
 import edu.awilkins6gatech.happyhealthytummyapp.Adapters.ViewPagerAdapter;
 import edu.awilkins6gatech.happyhealthytummyapp.Adapters.DailyFragment;
 
@@ -55,6 +56,7 @@ public class MainPageActivity extends AppCompatActivity {
         //adds the tab fragments
         adapter.addFragments(new DailyFragment(), "Daily");
         adapter.addFragments(new WeeklyFragment(), "Weekly");
+        adapter.addFragments(new MonthlyFragment(), "Monthly");
 
         viewPager.setAdapter(adapter);
 
@@ -101,10 +103,10 @@ public class MainPageActivity extends AppCompatActivity {
                 Intent gotToRecipeSearch = new Intent(MainPageActivity.this, RecipeSearchActivity.class);
                 startActivity(gotToRecipeSearch);
                 return true;
-            case R.id.dietSearch:
-                Intent gotToDietSearch = new Intent(MainPageActivity.this, DietSearchActivity.class);
-                startActivity(gotToDietSearch);
-                return true;
+//            case R.id.dietSearch:
+//                Intent gotToDietSearch = new Intent(MainPageActivity.this, DietSearchActivity.class);
+//                startActivity(gotToDietSearch);
+//                return true;
             case R.id.feedback:
                 Intent gotToFeedback = new Intent(MainPageActivity.this, FeedbackActivity.class);
                 startActivity(gotToFeedback);

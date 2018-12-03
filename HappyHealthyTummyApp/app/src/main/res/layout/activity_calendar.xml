@@ -20,6 +20,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_calendar" />
+    <include layout="@layout/fragment_monthly" />
 
 </android.support.design.widget.CoordinatorLayout>

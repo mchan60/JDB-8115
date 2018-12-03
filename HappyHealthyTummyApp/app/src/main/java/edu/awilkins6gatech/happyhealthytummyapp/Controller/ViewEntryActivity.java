@@ -80,9 +80,9 @@ public class ViewEntryActivity extends AppCompatActivity {
         description.setText(entry.getDescription());
         calories.setText(Integer.toString(entry.getCalories())+ " cal.");
         if (entry.getHappy() == 1) {
-            happy.setText("Happy!");
+            happy.setText("Happy!" + " (following diet)");
         } else {
-            happy.setText("Not Happy!");
+            happy.setText("Not Happy!" + " (not following diet)");
         }
 
 
